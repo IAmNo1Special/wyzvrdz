@@ -27,6 +27,10 @@ logs/
 # Agent files
 .claude
 
+#Dynamic files
+agents/skills/cron-manager/assets/cron_service.heartbeat
+agents/skills/cron-manager/assets/cron_jobs.json
+
 # Private files
 location_override.json
 need_for_later.py
