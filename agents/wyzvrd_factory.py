@@ -115,7 +115,6 @@ class WyzvrdFactory:
 
         runner = Runner(
             app=app,
-            # memory_service=memory_service,
             session_service=session_service,
             artifact_service=artifact_service,
         )
