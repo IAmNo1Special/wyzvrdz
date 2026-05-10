@@ -1,4 +1,4 @@
-"""Discord Specialist Agent for Project Zion.
+"""Discord Specialist Agent for Wyzvrdz.
 
 This module defines a specialized agent for Discord interactions,
 providing a clean interface for the root agent to delegate tasks.

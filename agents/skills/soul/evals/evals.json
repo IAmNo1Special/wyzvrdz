@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "prompt": "What's in my personal compendium about 'project zion'?",
-    "expected_output": "The agent should query the compendium management agent for information about 'project zion'.",
+    "prompt": "What's in my personal compendium about 'wyzvrdz'?",
+    "expected_output": "The agent should query the compendium management agent for information about 'wyzvrdz'.",
     "should_trigger": false,
     "expectations": [
       "The agent should call the compendium_mgmt_agent tool",
-      "The message sent to the compendium agent should start with 'Query the compendium: project zion'",
+      "The message sent to the compendium agent should start with 'Query the compendium: wyzvrdz'",
       "The response should be in Markdown"
     ]
   },

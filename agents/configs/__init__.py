@@ -1,4 +1,4 @@
-"""Structured configuration loader for Project Zion.
+"""Structured configuration loader for Wyzvrdz.
 
 This module replaces legacy static constants with dynamic, nested config
 objects that directly mirror the project's YAML settings files.

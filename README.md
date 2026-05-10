@@ -1,4 +1,4 @@
-# Wyzvrdz (Project Zion)
+# Wyzvrdz
 
 Wyzvrdz is an advanced, multi-agent AI system utilizing the **Google Agent Development Kit (ADK)**. It operates primarily as a rich, interactive Discord bot, bridging the asynchronous streaming capabilities of ADK agents into dynamic Discord UI components.
 

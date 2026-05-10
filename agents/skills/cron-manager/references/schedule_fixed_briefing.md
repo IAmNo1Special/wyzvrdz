@@ -9,6 +9,6 @@
 ```bash
 python scripts/manage_cron.py --action add \
   --name "Evening Progress Report" \
-  --prompt "Review git commits and file changes in Project Zion from the last 24 hours. Summarize achievements and blockers." \
+  --prompt "Review git commits and file changes in the wyzvrdz repository from the last 24 hours. Summarize achievements and blockers." \
   --fixed_time "18:00"
 ```
