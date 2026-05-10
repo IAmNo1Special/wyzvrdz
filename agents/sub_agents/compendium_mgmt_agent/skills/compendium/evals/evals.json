@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "prompt": "What do we know about 'Project Zion' in the compendium?",
+    "expected_output": "The agent should search and read the relevant compendium page.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/search_compendium.py to find 'Project Zion'",
+      "The agent should call scripts/read_compendium_file.py on the relevant file"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Update the 'Project Zion' compendium page to note that the backend is now Python.",
+    "expected_output": "The agent should append to or update the compendium file.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/search_compendium.py or scripts/read_compendium_file.py to check existence",
+      "The agent should call scripts/append_to_compendium_file.py or scripts/write_compendium_file.py",
+      "The agent should call scripts/update_compendium_visualization.py after writing"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Ingest the file 'raw_notes.md' from Desktop into my compendium.",
+    "expected_output": "The agent should ingest the specified file into the compendium.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/ingest_compendium_source.py with the 'ingest' command"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Look up 'Project Zion' on Wikipedia.",
+    "expected_output": "The agent should use a general web search, not the local compendium.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/search_compendium.py",
+      "The agent should use web_research_agent"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "Create a new compendium page for 'Johnnie Thigpen'. He is Malcom's father figure. Categorize him as family.",
+    "expected_output": "The agent should create an Obsidian-optimized person page.",
+    "should_trigger": true,
+    "expectations": [
+      "The frontmatter should include 'category: person' and 'tags: [family]'",
+      "The title should be '# Johnnie Thigpen'",
+      "It should include 'Father Figure of:: [[Malcom Thigpen]]' or similar wikilink",
+      "The agent should call scripts/write_compendium_file.py",
+      "The agent should call scripts/update_compendium_visualization.py"
+    ]
+  }
+]
