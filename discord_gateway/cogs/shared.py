@@ -11,6 +11,7 @@ import logging
 from typing import Any, TypeVar
 
 import discord
+from discord import ui
 
 logger = logging.getLogger("discord_bot")
 
@@ -89,3 +90,26 @@ def spawn_background_task(
 
     task = asyncio.create_task(wrapper(), name=name)
     return task
+
+
+def build_text_view(
+    content: str, *, accent_color: int | None = None
+) -> ui.LayoutView:
+    """Build a V2 LayoutView containing a single Container with TextDisplay.
+
+    In Components V2, plain ``content`` fields are disabled when the
+    ``IS_COMPONENTS_V2`` flag is set.  All visible text must be expressed
+    through ``TextDisplay`` components inside a ``Container``.
+
+    Args:
+        content: The markdown-formatted text to display.
+        accent_color: Optional accent color for the container.
+
+    Returns:
+        A ``ui.LayoutView`` ready to be passed to ``send(view=...)``.
+    """
+    view = ui.LayoutView()
+    text_display = ui.TextDisplay(content)
+    container = ui.Container(text_display, accent_color=accent_color)
+    view.add_item(container)
+    return view

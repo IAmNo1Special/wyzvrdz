@@ -15,6 +15,7 @@ from agents.configs import WYZVRD_SETTINGS
 from agents.sub_agents.discord_mgmt_agent.tools import DiscordAPIClient
 from discord_gateway.cogs.shared import (
     ADK_CONFIRMATION_FUNC,
+    build_text_view,
     with_typing_indicator,
 )
 from discord_gateway.state import TraceData, get_state
@@ -29,7 +30,8 @@ USER_ID = WYZVRD_SETTINGS.user_id
 logger = logging.getLogger("discord_bot")
 
 # Constants
-MAX_MESSAGE_LENGTH = 2000
+MAX_V2_TEXT_LENGTH = 4000  # Components V2 supports up to 4000 chars
+MAX_STANDARD_MESSAGE_LENGTH = 2000  # Standard messages still limited to 2000
 THOUGHT_TRUNCATE_LENGTH = 1900
 BUTTON_COMPONENT_TYPE = 2
 SELECT_COMPONENT_TYPE = 3
@@ -162,6 +164,9 @@ class AgentCog(commands.Cog):
                                 update_needed = True
                             if part.text and not event.partial:
                                 full_text += part.text
+                                title_text.content = self.bot.user.name
+                                body_text.content = full_text
+                                update_needed = True
 
                     # C. Handle Tool Calls
                     tool_calls: list[types.FunctionCall] = (
@@ -176,7 +181,7 @@ class AgentCog(commands.Cog):
                             tools_str += (
                                 f"🛠️ **Tools:** `{tc.name}({tc.args})`\n"
                             )
-                            body_text.content: str = tools_str
+                            body_text.content = tools_str
                             update_needed = True
 
                     # D. Handle Confirmations (NEW)
@@ -220,12 +225,12 @@ class AgentCog(commands.Cog):
 
                             approve_btn = ui.Button(
                                 label="Approve",
-                                style=discord.ButtonStyle.green,
+                                style=discord.ButtonStyle.success,
                                 custom_id=approve_id,
                             )
                             decline_btn = ui.Button(
                                 label="Decline",
-                                style=discord.ButtonStyle.red,
+                                style=discord.ButtonStyle.danger,
                                 custom_id=decline_id,
                             )
 
@@ -263,6 +268,7 @@ class AgentCog(commands.Cog):
 
                 # Build View with Trace Buttons
                 if current_thought:
+                    interaction_ui.add_item(ui.Separator())
                     thoughts_section_title = ui.TextDisplay("Thoughts")
                     thoughts_section_button = ui.Button(
                         label="View",
@@ -275,6 +281,7 @@ class AgentCog(commands.Cog):
                     )
                     interaction_ui.add_item(thoughts_section)
                 if tools_used:
+                    interaction_ui.add_item(ui.Separator())
                     tools_section_title = ui.TextDisplay("Tools")
                     tool_section_button = ui.Button(
                         label="View",
@@ -286,8 +293,9 @@ class AgentCog(commands.Cog):
                     )
                     interaction_ui.add_item(tools_section)
                 if non_fatal_errors:
+                    interaction_ui.add_item(ui.Separator())
                     errors_section_title = ui.TextDisplay("Errors")
-                    errors_section_button = discord.ui.Button(
+                    errors_section_button = ui.Button(
                         label="View",
                         style=discord.ButtonStyle.danger,
                         custom_id=f"trace_view:errors:{trace_id}",
@@ -297,20 +305,33 @@ class AgentCog(commands.Cog):
                     )
                     interaction_ui.add_item(errors_section)
 
-                # Only attach view if it has buttons
-                if len(interaction_ui.children) > 0:
-                    await status_msg.edit(view=interaction_ui)
-                else:
-                    await status_msg.edit(view=interaction_ui)
-
+                # Update status message with final response
                 if full_text:
-                    if len(full_text) > MAX_MESSAGE_LENGTH:
-                        for i in range(0, len(full_text), MAX_MESSAGE_LENGTH):
-                            await channel.send(
-                                full_text[i : i + MAX_MESSAGE_LENGTH]
-                            )
+                    if len(full_text) <= MAX_V2_TEXT_LENGTH:
+                        title_text.content = self.bot.user.name
+                        body_text.content = full_text
                     else:
-                        await channel.send(full_text)
+                        # If too long for embed,
+                        # show truncated in embed and send full as messages
+                        title_text.content = (
+                            f"{self.bot.user.name} (Continued below)"
+                        )
+                        body_text.content = (
+                            full_text[:MAX_V2_TEXT_LENGTH] + "..."
+                        )
+                        for i in range(
+                            0, len(full_text), MAX_STANDARD_MESSAGE_LENGTH
+                        ):
+                            await channel.send(
+                                view=build_text_view(
+                                    full_text[
+                                        i : i + MAX_STANDARD_MESSAGE_LENGTH
+                                    ]
+                                )
+                            )
+
+                # Final UI update to show trace buttons and response
+                await status_msg.edit(view=interaction_ui)
 
             except Exception as e:
                 body_text.content = "💥 Critical Failure"
@@ -338,7 +359,9 @@ class AgentCog(commands.Cog):
                 trace_data = get_state().get_trace(trace_id)
                 if not trace_data:
                     await interaction.response.send_message(
-                        "Sorry, this trace data has expired from memory.",
+                        view=build_text_view(
+                            "Sorry, this trace data has expired from memory."
+                        ),
                         ephemeral=True,
                     )
                     return
@@ -356,7 +379,9 @@ class AgentCog(commands.Cog):
                 else:
                     content = "Invalid trace type."
 
-                await interaction.response.send_message(content, ephemeral=True)
+                await interaction.response.send_message(
+                    view=build_text_view(content), ephemeral=True
+                )
                 return
 
             # 2. Handle Tool Confirmations (Approve/Decline)
@@ -389,7 +414,9 @@ class AgentCog(commands.Cog):
 
                 await interaction.response.defer(ephemeral=True)
                 await interaction.followup.send(
-                    f"Action {'Approved' if is_confirmed else 'Declined'}.",
+                    view=build_text_view(
+                        f"Action {'Approved' if is_confirmed else 'Declined'}."
+                    ),
                     ephemeral=True,
                 )
 
@@ -416,7 +443,8 @@ class AgentCog(commands.Cog):
                     return
                 else:
                     await interaction.response.send_message(
-                        "Form expired.", ephemeral=True
+                        view=build_text_view("Form expired."),
+                        ephemeral=True,
                     )
                     return
 
@@ -434,8 +462,10 @@ class AgentCog(commands.Cog):
             else:
                 msg = f"Interaction received: {custom_id}"
 
-            await interaction.followup.send("Received!", ephemeral=True)
             await interaction.response.defer(ephemeral=True)
+            await interaction.followup.send(
+                view=build_text_view("Received!"), ephemeral=True
+            )
             await self.process_agent_interaction(interaction, msg)
 
     async def cog_load(self):
@@ -499,7 +529,10 @@ class AgentCog(commands.Cog):
                     exc_info=True,
                 )
                 await message.channel.send(
-                    f"An unexpected error occurred: `{e}`"
+                    view=build_text_view(
+                        f"An unexpected error occurred: `{e}`",
+                        accent_color=discord.Color.red(),
+                    )
                 )
 
         await self.bot.process_commands(message)
