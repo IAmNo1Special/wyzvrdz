@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
 
 from google.adk import Runner
@@ -15,21 +14,17 @@ from google.adk.apps.llm_event_summarizer import LlmEventSummarizer
 from google.adk.code_executors import UnsafeLocalCodeExecutor
 from google.adk.skills import load_skill_from_dir
 from google.adk.tools import AgentTool, FunctionTool
-from google.adk.tools.mcp_tool import McpToolset
-from google.adk.tools.mcp_tool.mcp_session_manager import (
-    StdioConnectionParams,
-    StreamableHTTPConnectionParams,
-)
-from mcp import StdioServerParameters
 from starlette.applications import Starlette
 
 from .configs import WYZVRD_SETTINGS
 from .routing import ActiveSkillToolset
 from .services import artifact_service, session_service
 from .sub_agents import (
+    create_agentmail_agent,
+    create_agentphone_agent,
     create_compendium_mgmt_agent,
     create_discord_mgmt_agent,
-    create_web_research_agent,
+    create_github_agent,
 )
 from .tools import generate_images
 from .utils import get_model
@@ -57,20 +52,22 @@ class WyzvrdFactory:
         """
         # The web research agent must be created before
         #  the discord and compendium agents
-        web_research_agent = create_web_research_agent()
-        discord_mgmt_agent = create_discord_mgmt_agent()
+        agentmail_agent = create_agentmail_agent()
+        agentphone_agent = create_agentphone_agent()
         compendium_mgmt_agent = create_compendium_mgmt_agent()
+        discord_mgmt_agent = create_discord_mgmt_agent()
+        github_agent = create_github_agent()
+
         agent_tools = [
-            AgentTool(agent=web_research_agent),
-            AgentTool(agent=discord_mgmt_agent),
+            AgentTool(agent=agentmail_agent),
+            AgentTool(agent=agentphone_agent),
             AgentTool(agent=compendium_mgmt_agent),
+            AgentTool(agent=discord_mgmt_agent),
+            AgentTool(agent=github_agent),
         ]
 
         function_tools = [
             FunctionTool(generate_images, require_confirmation=True),
-            # FunctionTool(save_as_skill),
-            # PreloadMemoryTool(),
-            # AGUIToolset()
         ]
 
         # Combine all tools used in skills
@@ -85,50 +82,7 @@ class WyzvrdFactory:
             )
         ]
 
-        mcp_tools = [
-            McpToolset(
-                connection_params=StdioConnectionParams(
-                    server_params=StdioServerParameters(
-                        command="npx",
-                        args=[
-                            "-y",
-                            "agentmail-mcp",
-                        ],
-                        env={
-                            "AGENTMAIL_API_KEY": os.getenv("AGENTMAIL_API_KEY"),
-                        },
-                    ),
-                    timeout=30,
-                ),
-            ),
-            McpToolset(
-                connection_params=StdioConnectionParams(
-                    server_params=StdioServerParameters(
-                        command="npx",
-                        args=[
-                            "-y",
-                            "agentphone-mcp",
-                        ],
-                        env={
-                            "AGENTPHONE_API_KEY": os.getenv(
-                                "AGENTPHONE_API_KEY"
-                            ),
-                        },
-                    ),
-                    timeout=30,
-                ),
-            ),
-            McpToolset(
-                connection_params=StreamableHTTPConnectionParams(
-                    url="https://api.githubcopilot.com/mcp/",
-                    headers={
-                        "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}",
-                        "X-MCP-Toolsets": "all",
-                        "X-MCP-Readonly": "true",
-                    },
-                ),
-            ),
-        ]
+        mcp_tools = []
 
         all_tools = skillsets + mcp_tools
 
