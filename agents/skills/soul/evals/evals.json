@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "prompt": "What's in my personal compendium about 'project zion'?",
+    "expected_output": "The agent should query the compendium management agent for information about 'project zion'.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should call the compendium_mgmt_agent tool",
+      "The message sent to the compendium agent should start with 'Query the compendium: project zion'",
+      "The response should be in Markdown"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Post 'Hello World' to the discord channel.",
+    "expected_output": "The agent should use the discord management agent to post a message.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should call the discord_mgmt_agent tool",
+      "The response should confirm the action in Markdown"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Generate an image of a cybernetic wizard casting a spell.",
+    "expected_output": "The agent should use the generate_images tool with an enhanced prompt.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should call the generate_images tool",
+      "The prompt for image generation should be descriptive and enhanced",
+      "The response should be in Markdown"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "What is 2 + 2?",
+    "expected_output": "The agent should answer the question directly without using specific core tools.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call compendium_mgmt_agent",
+      "The agent should not call discord_mgmt_agent",
+      "The agent should not call generate_images",
+      "The response should be '4' or similar, in Markdown"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "Teach me how to use the request_skill function.",
+    "expected_output": "The agent should explain the core capability discovery system.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should reference the soul skill instructions",
+      "The agent should explain request_skill and load_skill usage"
+    ],
+    "note": "Soul knowledge query - should use soul skill reference"
+  },
+  {
+    "id": 6,
+    "prompt": "What tools do you have available and when should I use them?",
+    "expected_output": "The agent should explain available tools vs skills distinction.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should reference adk_additional_tools from soul skill",
+      "The agent should explain skill discovery process"
+    ],
+    "note": "Soul capability explanation - should reference soul skill"
+  },
+  {
+    "id": 7,
+    "prompt": "What's your personality and how do you approach tasks?",
+    "expected_output": "The agent should describe its soul identity and behavioral guidelines.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should reference the Soul Identity section",
+      "The agent should mention Wyzvrd personality traits"
+    ],
+    "note": "Identity question - should use soul skill reference"
+  }
+]

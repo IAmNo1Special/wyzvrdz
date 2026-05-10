@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "prompt": "Create a beautiful landing page for my coffee shop.",
+    "expected_output": "The agent should use the frontend-design skill to create a distinctive landing page.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference the frontend-design skill",
+      "The agent should choose a bold aesthetic direction",
+      "The agent should commit to distinctive typography and color choices"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Build me a dashboard with charts showing sales data.",
+    "expected_output": "The agent should use frontend-design for the dashboard UI.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference frontend-design skill",
+      "The agent should create production-grade code with proper layout",
+      "The agent should avoid generic 'AI slop' aesthetics"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Style this button with CSS to look modern.",
+    "expected_output": "The agent should use frontend-design for styling guidance.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should provide specific CSS styling",
+      "The agent should avoid generic system fonts and default colors"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Read the design.txt file and tell me what's in it.",
+    "expected_output": "The agent should NOT use frontend-design - it's a file operation.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference frontend-design skill",
+      "The agent should use filesystem skill to read the file"
+    ],
+    "note": "Hard negative: shares 'design' but is file operation"
+  },
+  {
+    "id": 5,
+    "prompt": "Write a Python script that generates HTML templates dynamically.",
+    "expected_output": "The agent should NOT use frontend-design - it's code generation.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference frontend-design skill",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'HTML' and 'templates' but is code generation"
+  },
+  {
+    "id": 6,
+    "prompt": "Explain the principles of good UI design.",
+    "expected_output": "The agent should NOT use frontend-design - it's educational.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any frontend-design scripts",
+      "The agent should provide an educational explanation"
+    ],
+    "note": "Hard negative: shares 'UI design' but is conceptual/educational"
+  }
+]

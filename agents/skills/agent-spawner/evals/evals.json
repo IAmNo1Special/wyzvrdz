@@ -1,0 +1,115 @@
+[
+  {
+    "id": 1,
+    "prompt": "Spawn a new agent named 'data-analyzer' to process the sales data.",
+    "expected_output": "The agent should spawn a new agent instance and return agent details.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/spawn_agent.py with --name and --task parameters",
+      "The response should include an agent_id, pid, and messageboard_path",
+      "The spawned agent should be registered in the registry"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Send a task to the spawned agent with ID '550e8400-e29b-41d4-a716-446655440000' asking it to analyze Q4 revenue.",
+    "expected_output": "The agent should send a message to the specified agent's messageboard.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/send_message.py with --agent-id, --type task, and --content parameters",
+      "The message should be written to the agent's messageboard JSON file",
+      "The response should include a message_id and timestamp"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Check if agent '550e8400-e29b-41d4-a716-446655440000' is still running and get its status.",
+    "expected_output": "The agent should check the agent's health and return status information.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/check_agent_health.py with the agent-id",
+      "The response should include pid_exists, status, and last_activity",
+      "If the agent is not running, warnings should be included"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Read any new messages from the spawned agent '550e8400-e29b-41d4-a716-446655440000'.",
+    "expected_output": "The agent should read unread messages from the agent's messageboard.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/read_messages.py with --agent-id and --unread-only",
+      "The response should include any messages from the agent",
+      "Message status should be updated to 'read' after retrieval"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "List all currently running spawned agents.",
+    "expected_output": "The agent should list all active spawned agents from the registry.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/list_spawned_agents.py with --status running",
+      "The response should include agent details: id, name, pid, status",
+      "Only running agents should be returned"
+    ]
+  },
+  {
+    "id": 6,
+    "prompt": "Stop and cleanup the spawned agent with ID '550e8400-e29b-41d4-a716-446655440000'.",
+    "expected_output": "The agent should terminate the spawned agent and cleanup resources.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/despawn_agent.py with the agent-id",
+      "The spawned process should be terminated",
+      "The agent should be removed from the registry",
+      "The messageboard file should be cleaned up"
+    ]
+  },
+  {
+    "id": 7,
+    "prompt": "Spawn 5 parallel agents to process different chunks of data simultaneously.",
+    "expected_output": "The agent should spawn multiple agents in parallel for distributed processing.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/spawn_agent.py multiple times with different names",
+      "Each agent should have a unique agent_id and messageboard",
+      "All agents should be listed in the registry",
+      "The response should include details for all spawned agents"
+    ]
+  },
+  {
+    "id": 8,
+    "prompt": "Stop all spawned agents immediately.",
+    "expected_output": "The agent should terminate all spawned agents at once.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/despawn_all_agents.py",
+      "All running agent processes should be terminated",
+      "The registry should be cleared of all agents",
+      "Response should indicate how many agents were terminated"
+    ]
+  },
+  {
+    "id": 9,
+    "prompt": "What's the weather like today?",
+    "expected_output": "The agent should NOT spawn any agents - it's a simple weather query.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should NOT call any agent-spawner scripts",
+      "The response should come from general knowledge or weather skill",
+      "No agents should be spawned"
+    ]
+  },
+  {
+    "id": 10,
+    "prompt": "Analyze this single CSV file for me.",
+    "expected_output": "The agent should NOT spawn agents for a simple single-file task.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should NOT call spawn_agent.py",
+      "The agent should process the CSV directly or use filesystem skill",
+      "No agent spawning needed for simple tasks"
+    ]
+  }
+]

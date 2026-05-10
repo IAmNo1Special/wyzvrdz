@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "prompt": "Remind me to check the server logs every day at 9am.",
+    "expected_output": "The agent should schedule a recurring task for 09:00.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/manage_cron.py with --action list to check for duplicates",
+      "The agent should call scripts/manage_cron.py with --action add",
+      "The --fixed_time parameter should be '09:00'",
+      "The --name should be a unique slug like 'check-server-logs'"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Cancel my 'daily-backup' job.",
+    "expected_output": "The agent should remove the specified job.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/manage_cron.py with --action remove",
+      "The --name parameter should be 'daily-backup'"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Is the morning-briefing job running right now?",
+    "expected_output": "The agent should check the status of the specific job.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/check_cron_status.py with --job_name morning-briefing"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "What's the weather like today?",
+    "expected_output": "The agent should not use cron-manager for weather queries.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/manage_cron.py",
+      "The agent should use the weather skill instead"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "I have a cron job that needs to run every day to check the weather forecast.",
+    "expected_output": "The agent should NOT use cron-manager - it's describing a cron concept, not asking to schedule a task.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/manage_cron.py",
+      "The agent should not call scripts/check_cron_status.py"
+    ],
+    "note": "Hard negative: shares 'cron' and 'every day' keywords but is informational, not a request"
+  },
+  {
+    "id": 6,
+    "prompt": "Write a Python script that schedules reminders using cron syntax.",
+    "expected_output": "The agent should NOT use cron-manager - it's a code generation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any cron-manager scripts",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'cron' and 'schedule reminders' but is code generation"
+  },
+  {
+    "id": 7,
+    "prompt": "My server backup runs every hour - is that a good interval?",
+    "expected_output": "The agent should NOT use cron-manager - it's asking for advice about an existing setup.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/manage_cron.py",
+      "The agent should not call scripts/check_cron_status.py"
+    ],
+    "note": "Hard negative: shares 'every hour' but is advisory, not a management request"
+  },
+  {
+    "id": 8,
+    "prompt": "Explain how cron jobs work in Linux.",
+    "expected_output": "The agent should NOT use cron-manager - it's an explanation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any cron-manager scripts",
+      "The agent should provide an educational explanation"
+    ],
+    "note": "Hard negative: shares 'cron jobs' but is conceptual/educational"
+  }
+]

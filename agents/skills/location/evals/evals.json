@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "prompt": "What time is it here?",
+    "expected_output": "The agent should determine the user's location to provide the correct time.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/resolve_location.py",
+      "The agent should use the location data to determine the time zone and provide the current time"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Actually, I'm in Chicago right now.",
+    "expected_output": "The agent should update the manual location override.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/update_location.py",
+      "The --city parameter should be 'Chicago'",
+      "The agent should ask for state or other missing info if necessary, or infer if confident"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Where am I currently located?",
+    "expected_output": "The agent should resolve and tell the user their location.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/resolve_location.py",
+      "The response should mention the city and state or country"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Set a timer for 5 minutes.",
+    "expected_output": "The agent should not use the location skill for a simple timer.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/resolve_location.py",
+      "The agent should not call scripts/update_location.py"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "I need a Python function that converts coordinates to city names.",
+    "expected_output": "The agent should NOT use location skill - it's a code generation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any location scripts",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'coordinates' and 'city names' but is code generation"
+  },
+  {
+    "id": 6,
+    "prompt": "What are the best restaurants near downtown Chicago?",
+    "expected_output": "The agent should NOT use location skill alone - it's a recommendation query.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/resolve_location.py",
+      "The agent should use a search/recommendation skill instead"
+    ],
+    "note": "Hard negative: shares location name but is recommendation, not location management"
+  },
+  {
+    "id": 7,
+    "prompt": "Write a story set in Tokyo, Japan.",
+    "expected_output": "The agent should NOT use location skill - it's creative writing.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any location scripts",
+      "The agent should write creative content"
+    ],
+    "note": "Hard negative: shares 'Tokyo, Japan' location but is creative writing"
+  },
+  {
+    "id": 8,
+    "prompt": "Explain how GPS satellites determine location.",
+    "expected_output": "The agent should NOT use location skill - it's an educational question.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/lookup_ip.py",
+      "The agent should provide an educational explanation"
+    ],
+    "note": "Hard negative: shares 'determine location' but is conceptual/educational"
+  }
+]

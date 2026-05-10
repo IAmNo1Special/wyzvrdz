@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "prompt": "Create a NiceGUI dashboard with buttons and charts for my data.",
+    "expected_output": "The agent should use the nicegui-design skill to create a Python UI.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference the nicegui-design skill",
+      "The agent should use proper NiceGUI syntax with `with` statements",
+      "The agent should include async event handlers"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Build a form with input fields and a submit button using NiceGUI.",
+    "expected_output": "The agent should use nicegui-design for the form UI.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference nicegui-design skill",
+      "The agent should use ui.input() and ui.button()",
+      "The agent should use proper Tailwind classes for styling"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "I need a Python web interface with a table showing my CSV data.",
+    "expected_output": "The agent should use nicegui-design for the table UI.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference nicegui-design skill",
+      "The agent should suggest ui.table() or ui.aggrid()",
+      "The agent should mention file upload via ui.upload()"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Read the nicegui.py file and fix the bug in it.",
+    "expected_output": "The agent should NOT use nicegui-design - it's a file operation.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference nicegui-design skill",
+      "The agent should use filesystem skill to read the file"
+    ],
+    "note": "Hard negative: shares 'nicegui' but is file operation"
+  },
+  {
+    "id": 5,
+    "prompt": "Write a tutorial on how to use NiceGUI for beginners.",
+    "expected_output": "The agent should NOT use nicegui-design - it's educational content.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference nicegui-design skill instructions",
+      "The agent should provide tutorial/educational content"
+    ],
+    "note": "Hard negative: shares 'NiceGUI' but is tutorial writing"
+  },
+  {
+    "id": 6,
+    "prompt": "Create a React component for a user profile card.",
+    "expected_output": "The agent should NOT use nicegui-design - it's React, not NiceGUI.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference nicegui-design skill",
+      "The agent should use frontend-design or React-specific skill"
+    ],
+    "note": "Hard negative: shares 'UI component' but wrong framework (React vs NiceGUI)"
+  }
+]

@@ -1,0 +1,21 @@
+name: Ruff
+on: [push, pull_request]
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Run the Linter (checks for style violations and bugs)
+      - name: Ruff Check
+        uses: astral-sh/ruff-action@v3
+        with:
+          # This command uses your pyproject.toml settings automatically
+          args: "check"
+
+      # 2. Run the Formatter (checks for indentation/formatting issues)
+      - name: Ruff Format
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: "format --check"

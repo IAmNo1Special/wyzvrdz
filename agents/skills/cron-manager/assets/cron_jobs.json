@@ -1,0 +1,50 @@
+[
+    {
+        "name": "fatima-anniversary-reminder",
+        "prompt": "Remind the user that their anniversary with Fatima (January 1st) is in one week. Suggest gift ideas related to Dakar, Senegal or Greensboro, NC.",
+        "fixed_date": "2026-12-25",
+        "fixed_time": "09:00",
+        "interval_minutes": null,
+        "interval_hours": null,
+        "interval_days": null,
+        "interval_weeks": null,
+        "interval_months": null,
+        "interval_years": 1,
+        "is_random": false,
+        "is_random_date": false,
+        "random_target_time": null,
+        "last_run": null
+    },
+    {
+        "name": "compendium-maintenance-daily",
+        "prompt": "Perform a 'lint' operation on the compendium. Check for broken links, inconsistent formatting, missing metadata, and ensure the structure follows the established standards from [references/rules.md](references/rules.md). Fix any and all issues found.",
+        "fixed_date": null,
+        "fixed_time": "00:00",
+        "interval_minutes": null,
+        "interval_hours": null,
+        "interval_days": null,
+        "interval_weeks": null,
+        "interval_months": null,
+        "interval_years": null,
+        "is_random": false,
+        "is_random_date": false,
+        "random_target_time": null,
+        "last_run": "2026-05-09T00:00:05.507911"
+    },
+    {
+        "name": "daily-ai-news-test-docs",
+        "prompt": "Research the top 3-5 AI news stories from the last 24 hours. Summarize them concisely and post the breakdown to the Discord channel with ID 1492425568971395082. Use clear headers and links to sources.",
+        "fixed_date": null,
+        "fixed_time": "09:00",
+        "interval_minutes": null,
+        "interval_hours": null,
+        "interval_days": null,
+        "interval_weeks": null,
+        "interval_months": null,
+        "interval_years": null,
+        "is_random": false,
+        "is_random_date": false,
+        "random_target_time": null,
+        "last_run": "2026-05-01T09:00:14.788177"
+    }
+]

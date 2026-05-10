@@ -1,0 +1,26 @@
+user_id: "user-1234567890"
+name: "your_wyzvrd"
+use_ollama: false
+ollama_mode: "local"
+ollama_url: "http://localhost:11434"
+a2a:
+  host: "localhost"
+  port: 8000
+models:
+  ollama:
+    root: "ollama_chat/gemma4:e4b"
+    compendium: "ollama_chat/gemma4:e4b"
+    discord: "ollama_chat/gemma4:e4b"
+    summarizer: "ollama_chat/gemma4:e4b"
+  gemini:
+    root: "gemini-3-flash-preview"
+    compendium: "gemini-3.1-flash-lite-preview"
+    discord: "gemini-3.1-flash-lite-preview"
+    summarizer: "gemini-3.1-flash-lite-preview"
+    url_context: "gemini-3.1-flash-lite-preview"
+    google_search: "gemini-3.1-flash-lite-preview"
+    web_research: "gemini-3.1-flash-lite-preview"
+
+routing:
+  moss_model_id: "moss-minilm"
+  moss_index_prefix: "skills"

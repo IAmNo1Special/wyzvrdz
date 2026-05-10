@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "prompt": "Create a support ticket embed.",
+    "expected_output": "The agent should send a rich embed message using the appropriate tool.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call the send_discord_embed tool",
+      "The fields_json parameter should be a valid JSON string",
+      "The embed should contain support ticket information"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Offer the user a profile setup form.",
+    "expected_output": "The agent should offer a Discord modal for onboarding.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call the offer_discord_modal tool",
+      "The fields_json parameter should be a valid JSON string"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Thumbs up the last message.",
+    "expected_output": "The agent should add a reaction to the message.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call the add_reaction_to_message tool",
+      "The reaction should be a thumbs up emoji or similar"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "What's the weather in Discord, Texas?",
+    "expected_output": "The agent should use the weather skill, not the discord skill.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call send_discord_message or similar tools",
+      "The agent should use the weather skill"
+    ]
+  }
+]

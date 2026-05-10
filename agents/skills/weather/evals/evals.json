@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "prompt": "What's the weather like?",
+    "expected_output": "The agent should resolve the user's location and fetch the weather.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should use the location skill to resolve the location",
+      "The agent should call scripts/fetch_weather.py or scripts/resolve_nws_url.py based on location"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Do I need an umbrella in 90210 today?",
+    "expected_output": "The agent should fetch the weather for the specific zip code.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/fetch_weather.py with the argument '90210'",
+      "The response should indicate whether it's raining or likely to rain"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "What's the forecast for latitude 34.05, longitude -118.24?",
+    "expected_output": "The agent should resolve the NWS URL and fetch the forecast.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/resolve_nws_url.py with '34.05' and '-118.24'"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Read the file weather.txt.",
+    "expected_output": "The agent should read a local file, not use the weather API.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/fetch_weather.py",
+      "The agent should use a standard file reading tool"
+    ],
+    "note": "Classic negative: shares 'weather' but is file operation"
+  },
+  {
+    "id": 5,
+    "prompt": "Write a Python script that fetches weather data from an API.",
+    "expected_output": "The agent should NOT use weather skill - it's a code generation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/fetch_weather.py",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'fetches weather data' but is code generation"
+  },
+  {
+    "id": 6,
+    "prompt": "My weather app shows rain today - should I trust it?",
+    "expected_output": "The agent should NOT use weather skill - it's asking for opinion/advice.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/fetch_weather.py",
+      "The agent should provide advice/recommendation"
+    ],
+    "note": "Hard negative: shares 'weather' and 'rain today' but is advisory"
+  },
+  {
+    "id": 7,
+    "prompt": "Create a dashboard showing historical weather trends for 2024.",
+    "expected_output": "The agent should NOT use weather skill - it's a dashboard creation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/fetch_weather.py",
+      "The agent should use a dashboard/frontend skill"
+    ],
+    "note": "Hard negative: shares 'weather' but is dashboard/UI task"
+  },
+  {
+    "id": 8,
+    "prompt": "Explain how meteorologists predict weather patterns.",
+    "expected_output": "The agent should NOT use weather skill - it's an educational question.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any weather scripts",
+      "The agent should provide an educational explanation"
+    ],
+    "note": "Hard negative: shares 'weather patterns' but is conceptual"
+  }
+]

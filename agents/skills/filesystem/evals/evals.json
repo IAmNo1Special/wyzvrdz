@@ -1,0 +1,108 @@
+[
+  {
+    "id": 1,
+    "prompt": "Read the file weather.txt.",
+    "expected_output": "The agent should use the filesystem skill to read weather.txt.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/read_file.py",
+      "The filepath should be 'weather.txt'",
+      "The response should show file contents or error if not found"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Write 'Hello World' to output.txt.",
+    "expected_output": "The agent should write the content to the file.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/write_file.py",
+      "The filepath should be 'output.txt'",
+      "The content should be 'Hello World'"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "List all files in the current directory.",
+    "expected_output": "The agent should list directory contents.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/list_directory.py",
+      "The response should contain a list of files/directories"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Does config.json exist?",
+    "expected_output": "The agent should check if the file exists.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/file_exists.py",
+      "The response should indicate whether the file exists"
+    ]
+  },
+  {
+    "id": 5,
+    "prompt": "What's the weather like today?",
+    "expected_output": "The agent should NOT use filesystem skill - it's a weather query.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any filesystem scripts",
+      "The agent should use the weather skill instead"
+    ]
+  },
+  {
+    "id": 6,
+    "prompt": "Explain how photosynthesis works.",
+    "expected_output": "The agent should answer directly without file operations.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any filesystem scripts",
+      "The agent should provide a direct answer"
+    ]
+  },
+  {
+    "id": 7,
+    "prompt": "Analyze the data in my weather.txt spreadsheet and calculate averages",
+    "expected_output": "The agent should NOT use filesystem skill - it's a data analysis request, not a file read.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/read_file.py",
+      "The agent should use a data analysis skill instead"
+    ],
+    "note": "Hard negative: shares 'weather.txt' keyword but wrong intent"
+  },
+  {
+    "id": 8,
+    "prompt": "Write a Python script that reads CSV files and generates a report",
+    "expected_output": "The agent should NOT use filesystem skill - it's a code generation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any filesystem scripts",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'reads files' concept but wrong task"
+  },
+  {
+    "id": 9,
+    "prompt": "Update the formulas in my Excel budget spreadsheet",
+    "expected_output": "The agent should NOT use filesystem skill - it's a spreadsheet manipulation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any filesystem scripts",
+      "The agent should use a spreadsheet skill instead"
+    ],
+    "note": "Hard negative: shares 'spreadsheet/file' but wrong intent"
+  },
+  {
+    "id": 10,
+    "prompt": "Parse the JSON config and upload to the database",
+    "expected_output": "The agent should NOT use filesystem skill alone - it's a data pipeline request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not only call read_file.py",
+      "The agent should use a database or data pipeline skill"
+    ],
+    "note": "Hard negative: shares 'JSON/config' keywords but wrong task"
+  }
+]

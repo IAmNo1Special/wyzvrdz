@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "prompt": "I want to create a skill for managing my book collection.",
+    "expected_output": "The agent should use the skill-creator skill to guide skill creation.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference the skill-creator skill",
+      "The agent should start the intent capture process",
+      "The agent should ask clarifying questions about the book collection skill"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "Help me improve my weather skill's description for better triggering.",
+    "expected_output": "The agent should use skill-creator's description optimization workflow.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference description optimization section",
+      "The agent should mention the run_loop.py script",
+      "The agent should suggest generating trigger eval queries"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Run evals on my filesystem skill and show me the results.",
+    "expected_output": "The agent should use the skill-creator eval runner workflow.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should reference the Running and evaluating test cases section",
+      "The agent should mention spawning with-skill and baseline subagents",
+      "The agent should mention the eval-viewer for results"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "Write a Python script that calculates fibonacci numbers.",
+    "expected_output": "The agent should NOT use skill-creator - it's a code generation request.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference skill-creator skill",
+      "The agent should provide Python code directly"
+    ],
+    "note": "Hard negative: shares 'script' but is code generation, not skill creation"
+  },
+  {
+    "id": 5,
+    "prompt": "Explain how the AgentSkills.io specification works.",
+    "expected_output": "The agent should NOT use skill-creator - it's an educational question.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call any skill-creator scripts",
+      "The agent should provide an educational explanation"
+    ],
+    "note": "Hard negative: shares 'skills' concept but is conceptual/educational"
+  },
+  {
+    "id": 6,
+    "prompt": "I read about skills in a blog post yesterday.",
+    "expected_output": "The agent should NOT use skill-creator - it's conversational.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not reference skill-creator instructions",
+      "The agent should respond conversationally"
+    ],
+    "note": "Hard negative: shares 'skills' keyword but is casual conversation"
+  }
+]

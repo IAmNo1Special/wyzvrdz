@@ -1,0 +1,61 @@
+[
+  {
+    "prompt": "What are the latest developments in AI?",
+    "expected_output": "Uses Google Search to find recent AI news",
+    "should_trigger": true,
+    "expectations": [
+      "Tool google_search is called",
+      "Search query includes 'AI' or 'artificial intelligence'",
+      "Returns multiple relevant results"
+    ]
+  },
+  {
+    "prompt": "What is the current price of Bitcoin?",
+    "expected_output": "Uses Google Search to find current BTC price",
+    "should_trigger": true,
+    "expectations": [
+      "Tool google_search is called",
+      "Search query includes 'Bitcoin' or 'BTC'",
+      "Returns price information or relevant results"
+    ]
+  },
+  {
+    "prompt": "Can you summarize the content at https://docs.python.org/3/tutorial/",
+    "expected_output": "Uses url_context to fetch and analyze Python docs",
+    "should_trigger": true,
+    "expectations": [
+      "Tool url_context is called",
+      "URL parameter is 'https://docs.python.org/3/tutorial/'",
+      "Returns comprehensive analysis with actionable insights"
+    ]
+  },
+  {
+    "prompt": "What does this article say: https://example.com/article",
+    "expected_output": "Uses url_context to fetch and analyze the article",
+    "should_trigger": true,
+    "expectations": [
+      "Tool url_context is called",
+      "URL parameter is provided",
+      "Returns content summary"
+    ]
+  },
+  {
+    "prompt": "Explain photosynthesis in detail.",
+    "expected_output": "Uses existing knowledge, does not search",
+    "should_trigger": false,
+    "expectations": [
+      "Tool google_search is NOT called",
+      "Tool url_context is NOT called",
+      "Response uses general knowledge"
+    ]
+  },
+  {
+    "prompt": "Write a creative story about a dragon.",
+    "expected_output": "Uses creativity, does not search",
+    "should_trigger": false,
+    "expectations": [
+      "Tool google_search is NOT called",
+      "Tool url_context is NOT called"
+    ]
+  }
+]

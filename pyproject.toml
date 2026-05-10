@@ -1,0 +1,58 @@
+[project]
+name = "wyzvrdz"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "discord-py>=2.7.1",
+    "filelock>=3.29.0",
+    "google-adk[a2a,extensions]>=1.29.0",
+    "moss>=1.1.0",
+    "python-dotenv>=1.2.2",
+    "pyyaml>=6.0.3",
+    "requests>=2.33.1",
+    "watchdog>=6.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.3.0",
+    "ruff>=0.15.11",
+]
+
+[tool.ruff]
+line-length = 80
+target-version = "py310"
+
+[tool.ruff.lint]
+# E: pycodestyle errors
+# F: Pyflakes (detects unused imports, variables, etc.)
+# I: isort (import sorting)
+# D: pydocstyle (docstring checks)
+# N: pep8-naming (naming conventions like CapWords for classes)
+# UP: pyupgrade (modernizes Python syntax)
+# PL: Pylint (catches many Google-specific "code smells")
+select = ["E", "F", "I", "D", "N", "UP", "PL"]
+
+# Standard Google-style ignores:
+# D203: Conflict with D211 (one blank line before class docstring)
+# D213: Conflict with D212 (multi-line docstring summary should start on first line)
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+# Google prefers "from x import y" only for modules or packages
+# These settings help maintain a clean import block
+combine-as-imports = true
+force-sort-within-sections = true
+
+[tool.ruff.format]
+# Google suggests using an auto-formatter to avoid style debates
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false

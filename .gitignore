@@ -1,0 +1,42 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment variables
+.env
+
+# Pre-commit
+.pre-commit-config.yaml
+
+# Database
+data/
+
+# Logs
+logs/
+
+# ruff
+.ruff_cache/
+
+# Agent files
+.claude
+
+# Private files
+location_override.json
+need_for_later.py
+compendium/
+*.db
+scripts/
+tests/
+docker/
+
+agentskills-understanding.md
+secret.google-api-key
+acontext_understanding.md
+wyzvrd_web.py
