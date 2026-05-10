@@ -11,7 +11,7 @@ import pathlib
 from google.adk.agents import LlmAgent
 from google.adk.code_executors import UnsafeLocalCodeExecutor
 from google.adk.skills import load_skill_from_dir
-from google.adk.tools import AgentTool, FunctionTool
+from google.adk.tools import FunctionTool
 
 from agents.routing import ActiveSkillToolset
 from agents.utils import get_model
@@ -42,12 +42,7 @@ def create_discord_mgmt_agent():
     Returns:
         The configured LlmAgent instance.
     """
-    from .. import create_web_research_agent  # noqa: PLC0415
-
-    web_research_agent = create_web_research_agent()
-    agent_tools = [
-        AgentTool(agent=web_research_agent),
-    ]
+    agent_tools = []
     function_tools = [
         FunctionTool(add_reaction),
         FunctionTool(send_channel_message),
