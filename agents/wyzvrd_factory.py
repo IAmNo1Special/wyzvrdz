@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 
 from google.adk import Runner
@@ -14,6 +15,12 @@ from google.adk.apps.llm_event_summarizer import LlmEventSummarizer
 from google.adk.code_executors import UnsafeLocalCodeExecutor
 from google.adk.skills import load_skill_from_dir
 from google.adk.tools import AgentTool, FunctionTool
+from google.adk.tools.mcp_tool import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import (
+    StdioConnectionParams,
+    StreamableHTTPConnectionParams,
+)
+from mcp import StdioServerParameters
 from starlette.applications import Starlette
 
 from .configs import WYZVRD_SETTINGS
@@ -78,7 +85,50 @@ class WyzvrdFactory:
             )
         ]
 
-        mcp_tools = []
+        mcp_tools = [
+            McpToolset(
+                connection_params=StdioConnectionParams(
+                    server_params=StdioServerParameters(
+                        command="npx",
+                        args=[
+                            "-y",
+                            "agentmail-mcp",
+                        ],
+                        env={
+                            "AGENTMAIL_API_KEY": os.getenv("AGENTMAIL_API_KEY"),
+                        },
+                    ),
+                    timeout=30,
+                ),
+            ),
+            McpToolset(
+                connection_params=StdioConnectionParams(
+                    server_params=StdioServerParameters(
+                        command="npx",
+                        args=[
+                            "-y",
+                            "agentphone-mcp",
+                        ],
+                        env={
+                            "AGENTPHONE_API_KEY": os.getenv(
+                                "AGENTPHONE_API_KEY"
+                            ),
+                        },
+                    ),
+                    timeout=30,
+                ),
+            ),
+            McpToolset(
+                connection_params=StreamableHTTPConnectionParams(
+                    url="https://api.githubcopilot.com/mcp/",
+                    headers={
+                        "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}",
+                        "X-MCP-Toolsets": "all",
+                        "X-MCP-Readonly": "true",
+                    },
+                ),
+            ),
+        ]
 
         all_tools = skillsets + mcp_tools
 
