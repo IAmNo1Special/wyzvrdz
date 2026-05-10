@@ -1,5 +1,6 @@
 # Python-generated files
 __pycache__/
+.ruff_cache/
 *.py[oc]
 build/
 dist/
@@ -12,17 +13,12 @@ wheels/
 # Environment variables
 .env
 
-# Pre-commit
-.pre-commit-config.yaml
 
 # Database
 data/
 
 # Logs
 logs/
-
-# ruff
-.ruff_cache/
 
 # Agent files
 .claude
@@ -34,13 +30,10 @@ agents/skills/cron-manager/assets/cron_jobs.json
 # Private files
 location_override.json
 need_for_later.py
-compendium/
+agents/sub_agents/compendium_mgmt_agent/skills/compendium/assets/compendium/
 *.db
 scripts/
 tests/
 docker/
-
-agentskills-understanding.md
-secret.google-api-key
-acontext_understanding.md
 wyzvrd_web.py
+agents/skills/cron-manager/assets/compendium-maintenance-hourly.lock
