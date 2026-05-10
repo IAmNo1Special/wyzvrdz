@@ -27,8 +27,8 @@ from .tools import (
     get_guild_roles,
     get_message,
     get_user,
+    send_channel_message,
     send_embed,
-    send_message,
     send_message_with_components,
     send_modal_button,
     update_nickname,
@@ -50,7 +50,7 @@ def create_discord_mgmt_agent():
     ]
     function_tools = [
         FunctionTool(add_reaction),
-        FunctionTool(send_message),
+        FunctionTool(send_channel_message),
         FunctionTool(send_embed),
         FunctionTool(send_message_with_components),
         FunctionTool(send_modal_button),

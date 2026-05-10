@@ -13,7 +13,7 @@ models:
     discord: "ollama_chat/gemma4:e4b"
     summarizer: "ollama_chat/gemma4:e4b"
   gemini:
-    root: "gemini-3-flash-preview"
+    root: "gemini-3.1-flash-lite-preview"
     compendium: "gemini-3.1-flash-lite-preview"
     discord: "gemini-3.1-flash-lite-preview"
     summarizer: "gemini-3.1-flash-lite-preview"

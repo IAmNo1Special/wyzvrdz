@@ -5,7 +5,7 @@ metadata:
   version: 2.0.0
   adk_additional_tools:
     - add_reaction
-    - send_message
+    - send_channel_message
     - send_embed
     - send_message_with_components
     - send_modal_button
@@ -39,7 +39,7 @@ This skill allows you to interact with the Discord platform directly using speci
     - *Select Menu*: `{"type": 3, "custom_id": "id", "options": [{"label": "A", "value": "a"}]}`
 - **`send_modal_button`**: Sends a button that, when clicked, opens a pop-up form (Modal).
   - *fields_json*: A JSON string list of input fields. Example: `'[{"label": "Name", "custom_id": "name", "style": 1, "required": true}]'`
-- **`send_message`**: Supports an optional `embed_json` string.
+- **`send_channel_message`**: Supports an optional `embed_json` string.
 
 ## Other Tools
 

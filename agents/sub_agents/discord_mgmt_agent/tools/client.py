@@ -370,7 +370,7 @@ class DiscordAPIClient:
 
     # --- Message Operations ---
 
-    async def send_message(
+    async def send_channel_message(
         self,
         channel_id: str,
         content: str,
@@ -433,7 +433,7 @@ class DiscordAPIClient:
             color=color,
             fields=fields or [],
         )
-        return await self.send_message(
+        return await self.send_channel_message(
             channel_id, "", embed=embed, reply_to=reply_to
         )
 

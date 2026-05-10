@@ -37,7 +37,7 @@ def _format_error(e: DiscordAPIError) -> dict[str, Any]:
 # --- Message Operations ---
 
 
-async def send_message(
+async def send_channel_message(
     channel_id: str,
     content: str,
     embed_json: str | None = None,
