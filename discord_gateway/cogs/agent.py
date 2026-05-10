@@ -72,8 +72,10 @@ class AgentCog(commands.Cog):
         async with get_state().get_session_lock(session_id):
             # 1. Send initial Status layout
             interaction_ui: ui.LayoutView = ui.LayoutView()
-            title_text: ui.TextDisplay = ui.TextDisplay("Tasha is thinking...")
-            body_text: ui.TextDisplay = ui.TextDisplay("🔄 Initializing...")
+            title_text: ui.TextDisplay = ui.TextDisplay(self.bot.user.name)
+            body_text: ui.TextDisplay = ui.TextDisplay(
+                f"🔄 {self.bot.user.name} is working..."
+            )
 
             status_container: ui.Container = ui.Container(
                 title_text, body_text, accent_color=discord.Color.blue()

@@ -53,7 +53,7 @@ class SupportTicketModal(ui.Modal, title="Submit Support Ticket"):
             ),
         ],
     )
-    _urgency_label = ui.Label(label="Urgency", component=_urgency_select)
+    _urgency_label = ui.Label(text="Urgency", component=_urgency_select)
 
     def __init__(self, cog: AgentCog):
         """Initialize the modal with a cog reference.
