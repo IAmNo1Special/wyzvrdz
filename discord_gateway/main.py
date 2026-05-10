@@ -12,12 +12,9 @@ import sys
 
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 
 from agents.configs import ROOT_DIR
 from discord_gateway.state import init_state
-
-load_dotenv()
 
 # Configure logging for background process
 logger = logging.getLogger("discord_bot")

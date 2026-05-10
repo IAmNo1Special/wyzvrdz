@@ -7,15 +7,12 @@ import os
 import time
 from typing import TYPE_CHECKING
 
-from dotenv import load_dotenv
 from moss import DocumentInfo, MossClient, QueryOptions
 
 if TYPE_CHECKING:
     from google.adk.skills.models import Skill
 
 logger = logging.getLogger(__name__)
-
-load_dotenv()
 
 
 class SkillRouter:
