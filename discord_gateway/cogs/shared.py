@@ -20,7 +20,7 @@ ADK_CONFIRMATION_FUNC = "adk_request_confirmation"
 T = TypeVar("T")
 
 
-def with_typing_indicator(
+def with_typing_indicator[T](
     func: Callable[..., Coroutine[Any, Any, T]],
 ) -> Callable[..., Coroutine[Any, Any, T]]:
     """Decorator that shows typing indicator while the wrapped function runs.
