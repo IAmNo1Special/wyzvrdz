@@ -1,0 +1,120 @@
+[
+  {
+    "id": 1,
+    "prompt": "What time is it right now?",
+    "expected_output": "The agent should run get_current_timestamp.py and return the current time.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/get_current_timestamp.py",
+      "The response should include a timestamp in YYYY-MM-DD HH:MM:SS format",
+      "The response should be in Markdown"
+    ]
+  },
+  {
+    "id": 2,
+    "prompt": "What's today's date?",
+    "expected_output": "The agent should run get_current_timestamp.py and return the current date.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/get_current_timestamp.py",
+      "The response should include today's date"
+    ]
+  },
+  {
+    "id": 3,
+    "prompt": "Give me the current timestamp.",
+    "expected_output": "The agent should run get_current_timestamp.py.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/get_current_timestamp.py",
+      "The response should include the full timestamp"
+    ]
+  },
+  {
+    "id": 4,
+    "prompt": "How many hours are in a day?",
+    "expected_output": "The agent should answer directly without using the time skill.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/get_current_timestamp.py",
+      "The agent should answer '24' or equivalent directly"
+    ],
+    "note": "Hard negative: shares 'hours' and 'day' but is general knowledge"
+  },
+  {
+    "id": 5,
+    "prompt": "What is 3pm plus 2 hours?",
+    "expected_output": "The agent should answer directly — this is time arithmetic, not a current-time query.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/get_current_timestamp.py",
+      "The agent should answer '5pm' or equivalent directly"
+    ],
+    "note": "Hard negative: shares 'time' keyword but is simple arithmetic"
+  },
+  {
+    "id": 6,
+    "prompt": "Write a Python function that returns the current time.",
+    "expected_output": "The agent should write code, not use the time skill.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/get_current_timestamp.py",
+      "The agent should provide Python code as output"
+    ],
+    "note": "Hard negative: shares 'current time' but is a code generation request"
+  },
+  {
+    "id": 7,
+    "prompt": "Set a reminder for 5pm.",
+    "expected_output": "The agent should not use the time skill for scheduling.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/get_current_timestamp.py",
+      "The agent should use a scheduling or cron skill instead"
+    ],
+    "note": "Hard negative: shares time context but is scheduling, not current-time query"
+  },
+  {
+    "id": 8,
+    "prompt": "Wait 30 seconds before continuing.",
+    "expected_output": "The agent should run wait.py with 30s duration.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/wait.py with argument 30 or 30s",
+      "The response should confirm the wait completed"
+    ]
+  },
+  {
+    "id": 9,
+    "prompt": "Pause for 5 minutes then tell me the time.",
+    "expected_output": "The agent should run wait.py with 5m, then get_current_timestamp.py.",
+    "should_trigger": true,
+    "expectations": [
+      "The agent should call scripts/wait.py with argument 5m or 300",
+      "The agent should call scripts/get_current_timestamp.py after waiting",
+      "The response should include the current time after the wait"
+    ]
+  },
+  {
+    "id": 10,
+    "prompt": "Remind me to check my email in 2 hours.",
+    "expected_output": "The agent should use a scheduling skill, not the time wait.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/wait.py",
+      "The agent should use a cron or scheduling skill instead"
+    ],
+    "note": "Hard negative: 'in 2 hours' sounds like a wait but is really scheduling/reminders"
+  },
+  {
+    "id": 11,
+    "prompt": "How does Python's time.sleep() function work?",
+    "expected_output": "The agent should explain the function, not run wait.py.",
+    "should_trigger": false,
+    "expectations": [
+      "The agent should not call scripts/wait.py",
+      "The agent should provide an educational explanation of time.sleep()"
+    ],
+    "note": "Hard negative: shares 'time' and 'sleep/wait' but is a code knowledge question"
+  }
+]
