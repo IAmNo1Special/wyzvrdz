@@ -16,8 +16,8 @@ Wyzvrdz is an advanced, multi-agent AI system utilizing the **Google Agent Devel
 ## Architecture Highlights
 
 1. **Discord Gateway (`discord_gateway/`)**: Connects to the Discord websocket, manages transient bot state (with async session locks and TTL eviction), deduplicates messages, and routes events. It provides a highly robust, rate-limit-aware async HTTP client for executing Discord API calls safely.
-2. **Agent Engine (`agents/`)**: Handles the core LLM orchestration. The root agent delegates complex logic to specialized sub-agents.
-3. **Skill Discovery (`agents/routing/`)**: Uses two-stage semantic vector matching (Domain Index and Capability Index) with cubic scoring to accurately match agent requests to the correct capabilities, preventing prompt bloat and keeping the agent highly focused.
+1. **Agent Engine (`agents/`)**: Handles the core LLM orchestration. The root agent delegates complex logic to specialized sub-agents.
+1. **Skill Discovery (`agents/routing/`)**: Uses two-stage semantic vector matching (Domain Index and Capability Index) with cubic scoring to accurately match agent requests to the correct capabilities, preventing prompt bloat and keeping the agent highly focused.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Wyzvrdz is an advanced, multi-agent AI system utilizing the **Google Agent Devel
    uv sync
    ```
 
-2. **Configure Environment Variables**:
+1. **Configure Environment Variables**:
    Create a `.env` file in the project root containing your necessary API keys:
 
    ```env
@@ -45,7 +45,7 @@ Wyzvrdz is an advanced, multi-agent AI system utilizing the **Google Agent Devel
    MOSS_PROJECT_KEY=your_moss_project_key
    ```
 
-3. **Run the Application**:
+1. **Run the Application**:
    Start the application and Discord bot via the main entrypoint:
 
    ```bash

@@ -9,11 +9,19 @@ import time
 from typing import TypedDict
 
 
+class ToolCallEntry(TypedDict, total=False):
+    """Type definition for a single tool call with its response."""
+
+    name: str
+    args: dict
+    response: dict | None
+
+
 class TraceData(TypedDict, total=False):
     """Type definition for trace registry entries."""
 
     thoughts: str
-    tools: list[str]
+    tools: list[ToolCallEntry]
     errors: list[str]
 
 

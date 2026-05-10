@@ -18,7 +18,7 @@ from discord_gateway.cogs.shared import (
     build_text_view,
     with_typing_indicator,
 )
-from discord_gateway.state import TraceData, get_state
+from discord_gateway.state import ToolCallEntry, TraceData, get_state
 from discord_gateway.ui.modals import (
     DynamicModal,
     OnboardingModal,
@@ -33,6 +33,7 @@ logger = logging.getLogger("discord_bot")
 MAX_V2_TEXT_LENGTH = 4000  # Components V2 supports up to 4000 chars
 MAX_STANDARD_MESSAGE_LENGTH = 2000  # Standard messages still limited to 2000
 THOUGHT_TRUNCATE_LENGTH = 1900
+MAX_RESPONSE_LENGTH = 800  # Maximum response length for tool trace display
 BUTTON_COMPONENT_TYPE = 2
 SELECT_COMPONENT_TYPE = 3
 
@@ -123,7 +124,8 @@ class AgentCog(commands.Cog):
                 current_invocation_id = invocation_id
 
                 # --- TRACE UI State ---
-                tools_used = []
+                tools_used: list[ToolCallEntry] = []
+                pending_tool_calls: dict[str, ToolCallEntry] = {}
                 non_fatal_errors = []
 
                 async for event in runner.run_async(
@@ -177,14 +179,43 @@ class AgentCog(commands.Cog):
                     if tool_calls:
                         tools_str: str = ""
                         for tc in tool_calls:
-                            if tc.name not in tools_used:
-                                tools_used.append(tc.name)
+                            entry: ToolCallEntry = {
+                                "name": tc.name,
+                                "args": dict(tc.args or {}),
+                                "response": None,
+                            }
+                            if tc.id:
+                                pending_tool_calls[tc.id] = entry
+                            tools_used.append(entry)
 
                             tools_str += (
                                 f"🛠️ **Tools:** `{tc.name}({tc.args})`\n"
                             )
                             body_text.content = tools_str
                             update_needed = True
+
+                    # C2. Handle Tool Responses
+                    tool_responses: list[types.FunctionResponse] = (
+                        event.get_function_responses()
+                    )
+                    if tool_responses:
+                        for resp in tool_responses:
+                            if resp.id and resp.id in pending_tool_calls:
+                                pending_tool_calls[resp.id]["response"] = dict(
+                                    resp.response or {}
+                                )
+                                del pending_tool_calls[resp.id]
+                            else:
+                                # Orphan response (no matching call tracked)
+                                for entry in tools_used:
+                                    if (
+                                        entry["name"] == resp.name
+                                        and entry["response"] is None
+                                    ):
+                                        entry["response"] = dict(
+                                            resp.response or {}
+                                        )
+                                        break
 
                     # D. Handle Confirmations (NEW)
                     if event.actions.requested_tool_confirmations:
@@ -268,44 +299,40 @@ class AgentCog(commands.Cog):
                     else discord.Color.orange()
                 )
 
-                # Build View with Trace Buttons
-                if current_thought:
-                    interaction_ui.add_item(ui.Separator())
-                    thoughts_section_title = ui.TextDisplay("Thoughts")
-                    thoughts_section_button = ui.Button(
-                        label="View",
-                        style=discord.ButtonStyle.secondary,
-                        custom_id=f"trace_view:thoughts:{trace_id}",
-                    )
-                    thoughts_section = ui.Section(
-                        thoughts_section_title,
-                        accessory=thoughts_section_button,
-                    )
-                    interaction_ui.add_item(thoughts_section)
+                # Build View with Trace Buttons inside the Container
                 if tools_used:
-                    interaction_ui.add_item(ui.Separator())
-                    tools_section_title = ui.TextDisplay("Tools")
                     tool_section_button = ui.Button(
                         label="View",
                         style=discord.ButtonStyle.primary,
                         custom_id=f"trace_view:tools:{trace_id}",
                     )
                     tools_section = ui.Section(
-                        tools_section_title, accessory=tool_section_button
+                        ui.TextDisplay("Tools"),
+                        accessory=tool_section_button,
                     )
-                    interaction_ui.add_item(tools_section)
+                    status_container.add_item(tools_section)
+                if current_thought:
+                    thoughts_section_button = ui.Button(
+                        label="View",
+                        style=discord.ButtonStyle.secondary,
+                        custom_id=f"trace_view:thoughts:{trace_id}",
+                    )
+                    thoughts_section = ui.Section(
+                        ui.TextDisplay("Thoughts"),
+                        accessory=thoughts_section_button,
+                    )
+                    status_container.add_item(thoughts_section)
                 if non_fatal_errors:
-                    interaction_ui.add_item(ui.Separator())
-                    errors_section_title = ui.TextDisplay("Errors")
                     errors_section_button = ui.Button(
                         label="View",
                         style=discord.ButtonStyle.danger,
                         custom_id=f"trace_view:errors:{trace_id}",
                     )
                     errors_section = ui.Section(
-                        errors_section_title, accessory=errors_section_button
+                        ui.TextDisplay("Errors"),
+                        accessory=errors_section_button,
                     )
-                    interaction_ui.add_item(errors_section)
+                    status_container.add_item(errors_section)
 
                 # Update status message with final response
                 if full_text:
@@ -373,8 +400,25 @@ class AgentCog(commands.Cog):
                     thoughts = trace_data["thoughts"][:THOUGHT_TRUNCATE_LENGTH]
                     content = f"**Agent Thoughts:**\n```md\n{thoughts}\n```"
                 elif trace_type == "tools":
-                    tools_str = "\n- ".join(trace_data["tools"])
-                    content = f"**Tools Executed:**\n- {tools_str}"
+                    tool_entries: list[ToolCallEntry] = trace_data["tools"]
+                    lines: list[str] = []
+                    for idx, entry in enumerate(tool_entries, 1):
+                        args_str = json.dumps(entry["args"], default=str)
+                        lines.append(
+                            f"**{idx}. `{entry['name']}`**\n"
+                            f"  Args: `{args_str}`"
+                        )
+                        if entry.get("response") is not None:
+                            resp_str = json.dumps(
+                                entry["response"], default=str, indent=2
+                            )
+                            # Truncate huge responses
+                            if len(resp_str) > MAX_RESPONSE_LENGTH:
+                                resp_str = (
+                                    resp_str[:MAX_RESPONSE_LENGTH] + "..."
+                                )
+                            lines.append(f"  Response:```json\n{resp_str}\n```")
+                    content = "\n".join(lines) or "No tools were used."
                 elif trace_type == "errors":
                     errs_str = "\n- ".join(trace_data["errors"])
                     content = f"**Non-Fatal Errors:**\n- {errs_str}"
