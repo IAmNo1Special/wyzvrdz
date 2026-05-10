@@ -35,32 +35,33 @@ Complete schema specification for agent messageboards.
 
 ### Top-Level Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `agent_id` | UUID | Unique identifier for the agent |
-| `agent_name` | string | Human-readable name |
-| `created_at` | ISO timestamp | When messageboard was created |
-| `last_activity` | ISO timestamp | Last read or write |
-| `status` | enum | Current agent status |
-| `pid` | integer | OS process ID |
-| `messages` | array | List of messages |
+| Field           | Type          | Description                     |
+| --------------- | ------------- | ------------------------------- |
+| `agent_id`      | UUID          | Unique identifier for the agent |
+| `agent_name`    | string        | Human-readable name             |
+| `created_at`    | ISO timestamp | When messageboard was created   |
+| `last_activity` | ISO timestamp | Last read or write              |
+| `status`        | enum          | Current agent status            |
+| `pid`           | integer       | OS process ID                   |
+| `messages`      | array         | List of messages                |
 
 ### Message Fields
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique message identifier (msg-*) |
-| `timestamp` | ISO timestamp | When message was sent |
-| `direction` | enum | Message flow direction |
-| `type` | enum | Message category |
-| `content` | string | Message body |
-| `status` | enum | Processing status |
-| `reply_to` | string | Optional parent message ID |
-| `metadata` | object | Optional structured data |
+| Field       | Type          | Description                        |
+| ----------- | ------------- | ---------------------------------- |
+| `id`        | string        | Unique message identifier (msg-\*) |
+| `timestamp` | ISO timestamp | When message was sent              |
+| `direction` | enum          | Message flow direction             |
+| `type`      | enum          | Message category                   |
+| `content`   | string        | Message body                       |
+| `status`    | enum          | Processing status                  |
+| `reply_to`  | string        | Optional parent message ID         |
+| `metadata`  | object        | Optional structured data           |
 
 ## Message Types
 
 ### task
+
 Assignment from main agent to spawned agent.
 
 ```json
@@ -73,6 +74,7 @@ Assignment from main agent to spawned agent.
 ```
 
 ### result
+
 Output from spawned agent back to main agent.
 
 ```json
@@ -89,6 +91,7 @@ Output from spawned agent back to main agent.
 ```
 
 ### status
+
 Health check or progress update.
 
 ```json
@@ -101,6 +104,7 @@ Health check or progress update.
 ```
 
 ### command
+
 Control directive from main agent.
 
 ```json
@@ -113,6 +117,7 @@ Control directive from main agent.
 ```
 
 ### error
+
 Error notification from spawned agent.
 
 ```json
@@ -127,12 +132,14 @@ Error notification from spawned agent.
 ## Status Values
 
 ### Message Status
+
 - `pending` - Message sent but not yet processed
 - `completed` - Message processed successfully
 - `failed` - Processing failed
 - `read` - Message has been read (for from_agent messages)
 
 ### Agent Status
+
 - `initializing` - Agent starting up
 - `running` - Agent active and processing
 - `stopped` - Agent terminated
@@ -141,6 +148,7 @@ Error notification from spawned agent.
 ## Concurrency & Locking
 
 Messageboards use file-level locking:
+
 - Reads acquire shared lock (multiple readers ok)
 - Writes acquire exclusive lock (single writer)
 

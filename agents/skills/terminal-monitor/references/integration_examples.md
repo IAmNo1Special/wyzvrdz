@@ -14,9 +14,9 @@ When using the `agent-spawner` skill to spawn background agents, use `terminal-m
    python agents/skills/agent-spawner/scripts/spawn_agent.py --name "research-agent" --task "Analyze data"
    ```
 
-2. Get the process ID from the spawn result (PID field in JSON output)
+1. Get the process ID from the spawn result (PID field in JSON output)
 
-3. Monitor the agent:
+1. Monitor the agent:
 
    ```bash
    # Check if it's still running
@@ -49,16 +49,16 @@ When using the `cron-manager` skill for scheduled tasks, use `terminal-monitor` 
    python agents/skills/terminal-monitor/scripts/list_processes.py --filter "cron"
    ```
 
-2. Monitor the cron service process if found
+1. Monitor the cron service process if found
 
 ## General Background Tasks
 
 For any background task started by the agent:
 
 1. Capture the process ID when starting the task
-2. Store the PID in a registry file (via filesystem skill)
-3. Use terminal-monitor to check status periodically
-4. Read output when needed
+1. Store the PID in a registry file (via filesystem skill)
+1. Use terminal-monitor to check status periodically
+1. Read output when needed
 
 ### Example Registry Entry
 

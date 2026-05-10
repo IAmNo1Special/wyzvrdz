@@ -3,11 +3,11 @@ name: nicegui-design
 description: Create beautiful, modern web-based GUIs using NiceGUI framework. Use this skill whenever the user wants to build a user interface, create a web app, design a frontend, build a dashboard, or mentions anything related to Python UI development, web interfaces, or NiceGUI specifically. Apply this skill even if the user doesn't explicitly say "NiceGUI" but wants to create buttons, forms, dialogs, charts, tables, or any interactive web elements with Python.
 metadata:
   author: wyzvrd
-  version: "1.1.0"
+  version: 1.1.0
   framework: NiceGUI
   language: Python
   category: frontend-development
-  tags: ["ui", "gui", "web", "python", "nicegui", "frontend", "dashboard"]
+  tags: [ui, gui, web, python, nicegui, frontend, dashboard]
 ---
 
 # NiceGUI Designer Skill
@@ -22,7 +22,7 @@ Build professional, modern web-based UIs using NiceGUI - a Python framework that
 
 ## Architecture
 
-```
+```text
 Your Python Code (NiceGUI) -> FastAPI + Socket.IO (WebSocket) -> Vue.js 3 + Quasar + Tailwind CSS
 ```
 
@@ -42,20 +42,24 @@ ui.run()
 ## Essential Elements by Category
 
 ### Layout & Structure
+
 - **Containers**: `ui.card`, `ui.column`, `ui.row`, `ui.expansion`, `ui.tabs`
 - **Page**: `ui.header`, `ui.footer`, `ui.left_drawer`, `ui.right_drawer`, `ui.page_sticky`
 
 ### User Input
+
 - **Text**: `ui.input`, `ui.number`, `ui.textarea`
 - **Selection**: `ui.select`, `ui.slider`, `ui.range`, `ui.checkbox`, `ui.switch`, `ui.radio`
 - **Files**: `ui.upload`, `ui.download`
 
 ### Display & Data
+
 - **Content**: `ui.label`, `ui.html`, `ui.markdown`, `ui.image`
 - **Tables**: `ui.table`, `ui.aggrid`
 - **Charts**: `ui.plotly`, `ui.echart`, `ui.highchart`, `ui.pyplot`
 
 ### Interaction & Feedback
+
 - **Actions**: `ui.button`, `ui.icon_button`, `ui.fab`
 - **Dialogs**: `ui.dialog`, `ui.notify`, `ui.notification`, `ui.tooltip`
 - **Navigation**: `ui.link`, `ui.menu`, `ui.breadcrumbs`
@@ -187,31 +191,34 @@ python scripts/styling_guide.py --layout form
 
 ## When to Use What
 
-| Task | Recommended Elements |
-|------|---------------------|
-| Simple form | `ui.card` + `ui.input` + `ui.button` |
-| Data table | `ui.table` (simple) or `ui.aggrid` (complex) |
-| Dashboard | `ui.row`/`ui.column` + cards + `ui.plotly` |
-| Settings page | `ui.expansion` sections + `ui.switch`/`ui.select` |
-| Wizard flow | `ui.stepper` |
-| Image gallery | `ui.carousel` or `ui.grid` with `ui.image` |
-| Chat interface | `ui.chat_message` + `ui.scroll_area` |
-| 3D visualization | `ui.scene` (Three.js-based) |
+| Task             | Recommended Elements                              |
+| ---------------- | ------------------------------------------------- |
+| Simple form      | `ui.card` + `ui.input` + `ui.button`              |
+| Data table       | `ui.table` (simple) or `ui.aggrid` (complex)      |
+| Dashboard        | `ui.row`/`ui.column` + cards + `ui.plotly`        |
+| Settings page    | `ui.expansion` sections + `ui.switch`/`ui.select` |
+| Wizard flow      | `ui.stepper`                                      |
+| Image gallery    | `ui.carousel` or `ui.grid` with `ui.image`        |
+| Chat interface   | `ui.chat_message` + `ui.scroll_area`              |
+| 3D visualization | `ui.scene` (Three.js-based)                       |
 
 ## What To Do If You Don't Understand Something
 
 ### Escalation Protocol
 
 1. **Check Skill References** (this skill has detailed refs in `references/`)
+
    - [references/elements.md](references/elements.md) - Full element catalog
    - [references/styling.md](references/styling.md) - Styling guide
    - [references/common-patterns.md](references/common-patterns.md) - Code patterns
 
-2. **Official Documentation**
+1. **Official Documentation**
+
    - `nicegui.io/documentation` - API reference
    - `nicegui.io/examples` - 60+ working examples
 
-3. **Debug with Browser Tools**
+1. **Debug with Browser Tools**
+
    ```python
    # Mark element for inspection
    my_element.mark('my-marker')
@@ -223,15 +230,18 @@ python scripts/styling_guide.py --layout form
    value = await my_element.get_computed_prop('scrollHeight')
    ```
 
-4. **Search GitHub Issues**
+1. **Search GitHub Issues**
+
    - `github.com/zauberzeug/nicegui/issues`
 
-5. **Fallback to Base Technologies**
+1. **Fallback to Base Technologies**
+
    - Quasar Framework docs: `quasar.dev`
    - Vue 3 docs for reactivity patterns
    - Tailwind CSS docs for styling
 
-6. **Community**
+1. **Community**
+
    - NiceGUI Discord
    - Reddit r/nicegui
    - Stack Overflow (tag: `nicegui`)
@@ -286,6 +296,6 @@ ui.timer(interval, callback)
 - **Native Mode**: `ui.run(native=True)` creates a desktop window. Requires `pywebview` package.
 - **File vs UI**: "nicegui.py" is a file, not a UI request. Use filesystem skill for file operations.
 
----
+______________________________________________________________________
 
 **For detailed element documentation, styling guide, and code patterns, see the `references/` directory.**

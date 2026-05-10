@@ -3,6 +3,7 @@
 **Use Case:** User asks whether a specific file or directory exists.
 
 **User Query:**
+
 > "Does config.json exist?"
 > "Is there a file called data.txt?"
 

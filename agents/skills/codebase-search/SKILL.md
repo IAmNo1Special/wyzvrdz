@@ -13,6 +13,7 @@ This skill provides advanced regex-based search capabilities for text files acro
 ## When to Use
 
 Use this skill when the user asks for:
+
 - Searching code patterns ("find all functions", "find imports", "grep for X")
 - Finding specific text across files ("where is this used", "search for TODO")
 - Regex-based searches ("find patterns matching X")
@@ -27,11 +28,13 @@ Use this skill when the user asks for:
 Search files by pattern with regex support.
 
 **Usage:**
+
 ```bash
 python scripts/search_files.py [directory] --pattern "<regex>" [--extensions ".py,.md"] [--content "<search-term>"] [--output json|text]
 ```
 
 **Examples:**
+
 ```bash
 # Find all function definitions
 python scripts/search_files.py . --pattern "def \w+\(" --extensions ".py"
@@ -47,6 +50,7 @@ python scripts/search_files.py logs/ --content "ERROR" --output json
 ```
 
 **Output:**
+
 - Text mode: File paths with matching lines
 - JSON mode: Structured results with file, line number, and match content
 
@@ -55,11 +59,13 @@ python scripts/search_files.py logs/ --content "ERROR" --output json
 Search with context (show lines before/after matches).
 
 **Usage:**
+
 ```bash
 python scripts/search_context.py [directory] --pattern "<regex>" [--before N] [--after N] [--extensions ".py"]
 ```
 
 **Examples:**
+
 ```bash
 # Find function definitions with 2 lines of context
 python scripts/search_context.py . --pattern "def \w+\(" --before 2 --after 2 --extensions ".py"
@@ -73,11 +79,13 @@ python scripts/search_context.py logs/ --content "ERROR" --before 3 --after 3
 Count pattern occurrences across files.
 
 **Usage:**
+
 ```bash
 python scripts/count_matches.py [directory] --pattern "<regex>" [--extensions ".py"]
 ```
 
 **Examples:**
+
 ```bash
 # Count TODO comments
 python scripts/count_matches.py . --content "TODO" --extensions ".py,.md"
@@ -134,17 +142,17 @@ python scripts/search_files.py config/ --content "database|db_host|db_user" --ex
 
 Common regex patterns for code analysis:
 
-| Pattern | Purpose |
-|---------|---------|
-| `def \w+\(` | Function definitions |
-| `^class \w+` | Class definitions |
-| `^import |^from .* import` | Import statements |
-| `@.*` | Decorators |
-| `self\.\w+` | Instance method calls |
+| Pattern       | Purpose                      |
+| ------------- | ---------------------------- |
+| `def \w+\(`   | Function definitions         |
+| `^class \w+`  | Class definitions            |
+| \`^import     | ^from .\* import\`           |
+| `@.*`         | Decorators                   |
+| `self\.\w+`   | Instance method calls        |
 | `^\s*def \w+` | Indented functions (methods) |
-| `# TODO|# FIXME` | Code comments |
-| `raise \w+` | Exception raising |
-| `except \w+` | Exception handling |
+| \`# TODO      | # FIXME\`                    |
+| `raise \w+`   | Exception raising            |
+| `except \w+`  | Exception handling           |
 
 ## Gotchas
 

@@ -15,6 +15,7 @@ This skill enables spawning independent Wyzvrd agent instances as separate proce
 ## When to Use
 
 Use this skill when:
+
 - You need to run multiple agents in parallel for concurrent task processing
 - You want to delegate long-running tasks to background agents
 - You need to create agent swarms for distributed processing
@@ -23,7 +24,7 @@ Use this skill when:
 
 ## Architecture Overview
 
-```
+```text
 Main Agent (Parent Process)
     ├── Spawned Agent #1 <--> Messageboard #1 (JSON file)
     ├── Spawned Agent #2 <--> Messageboard #2 (JSON file)
@@ -31,6 +32,7 @@ Main Agent (Parent Process)
 ```
 
 **Key Concepts:**
+
 - **Spawned Agent**: Independent process running a full Wyzvrd instance
 - **Messageboard**: JSON file used for bidirectional communication
 - **Registry**: JSON file tracking all spawned agents (PID, messageboard path, status)
@@ -68,6 +70,7 @@ Each messageboard is a JSON file with the following structure:
 ```
 
 **Message Types:**
+
 - `task`: Assignment from main agent to spawned agent
 - `result`: Output from spawned agent back to main agent
 - `status`: Health check or progress update
@@ -80,11 +83,13 @@ Each messageboard is a JSON file with the following structure:
 Spawn a new independent agent instance.
 
 **Usage:**
+
 ```bash
 python scripts/spawn_agent.py --name "research-agent-1" --task "Research quantum computing" [--timeout 300]
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -102,11 +107,13 @@ python scripts/spawn_agent.py --name "research-agent-1" --task "Research quantum
 Send a message to a spawned agent via its messageboard.
 
 **Usage:**
+
 ```bash
 python scripts/send_message.py --agent-id <uuid> --type task --content "New task description"
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -120,11 +127,13 @@ python scripts/send_message.py --agent-id <uuid> --type task --content "New task
 Read messages from a spawned agent's messageboard.
 
 **Usage:**
+
 ```bash
 python scripts/read_messages.py --agent-id <uuid> [--since "2026-01-01T12:00:00Z"] [--unread-only]
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -147,11 +156,13 @@ python scripts/read_messages.py --agent-id <uuid> [--since "2026-01-01T12:00:00Z
 List all spawned agents from the registry.
 
 **Usage:**
+
 ```bash
 python scripts/list_spawned_agents.py [--status running|stopped|all]
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -175,11 +186,13 @@ python scripts/list_spawned_agents.py [--status running|stopped|all]
 Stop and cleanup a spawned agent.
 
 **Usage:**
+
 ```bash
 python scripts/despawn_agent.py --agent-id <uuid> [--force]
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -195,11 +208,13 @@ python scripts/despawn_agent.py --agent-id <uuid> [--force]
 Stop all spawned agents.
 
 **Usage:**
+
 ```bash
 python scripts/despawn_all_agents.py [--force]
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -214,11 +229,13 @@ python scripts/despawn_all_agents.py [--force]
 Check if a spawned agent is still running.
 
 **Usage:**
+
 ```bash
 python scripts/check_agent_health.py --agent-id <uuid>
 ```
 
 **Output:**
+
 ```json
 {
   "success": true,
@@ -283,7 +300,7 @@ python scripts/despawn_all_agents.py
 
 Assets are stored in the `filesystem` skill for centralized management:
 
-```
+```text
 filesystem/assets/
 ├── registry.json              # Master registry of all spawned agents
 └── boards/                    # Messageboard directory

@@ -133,7 +133,9 @@ When a process exits:
 **Solution:**
 
 - Verify the PID is correct
+
 - Check if the process was spawned recently
+
 - List all processes to find the correct PID:
 
   ```bash

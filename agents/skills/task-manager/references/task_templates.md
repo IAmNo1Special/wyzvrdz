@@ -5,6 +5,7 @@ This reference provides common task templates for different use cases.
 ## Software Development
 
 ### Feature Development
+
 - Design feature specification
 - Implement core functionality
 - Write unit tests
@@ -15,6 +16,7 @@ This reference provides common task templates for different use cases.
 - Deploy to production
 
 ### Bug Fix
+
 - Reproduce the bug
 - Identify root cause
 - Implement fix
@@ -23,6 +25,7 @@ This reference provides common task templates for different use cases.
 - Deploy hotfix
 
 ### Code Review
+
 - Review code changes
 - Check for security issues
 - Verify test coverage
@@ -33,6 +36,7 @@ This reference provides common task templates for different use cases.
 ## Research
 
 ### Literature Review
+
 - Search for relevant papers
 - Read and summarize papers
 - Identify key themes
@@ -40,6 +44,7 @@ This reference provides common task templates for different use cases.
 - Create bibliography
 
 ### Experiment Design
+
 - Define hypothesis
 - Design experiment methodology
 - Prepare data
@@ -47,6 +52,7 @@ This reference provides common task templates for different use cases.
 - Run pilot test
 
 ### Data Analysis
+
 - Collect data
 - Clean data
 - Analyze data
@@ -57,6 +63,7 @@ This reference provides common task templates for different use cases.
 ## Project Management
 
 ### Planning
+
 - Define project scope
 - Create timeline
 - Identify dependencies
@@ -64,6 +71,7 @@ This reference provides common task templates for different use cases.
 - Set milestones
 
 ### Meeting
+
 - Prepare agenda
 - Schedule meeting
 - Send invitations
@@ -71,6 +79,7 @@ This reference provides common task templates for different use cases.
 - Follow up on action items
 
 ### Documentation
+
 - Create outline
 - Write content
 - Review and edit
@@ -80,6 +89,7 @@ This reference provides common task templates for different use cases.
 ## Personal
 
 ### Daily Tasks
+
 - Check email
 - Review calendar
 - Prioritize tasks
@@ -87,6 +97,7 @@ This reference provides common task templates for different use cases.
 - Prepare for tomorrow
 
 ### Learning
+
 - Set learning goal
 - Find resources
 - Study material
@@ -94,6 +105,7 @@ This reference provides common task templates for different use cases.
 - Assess progress
 
 ### Health
+
 - Schedule exercise
 - Plan meals
 - Track sleep

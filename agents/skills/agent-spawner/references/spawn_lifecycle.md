@@ -123,8 +123,8 @@ Agent encountered unrecoverable error.
 **Recovery:**
 
 1. Check `read_messages.py` for error details
-2. `despawn_agent.py` to cleanup
-3. `spawn_agent.py` to recreate
+1. `despawn_agent.py` to cleanup
+1. `spawn_agent.py` to recreate
 
 ### 6. Stopped
 
@@ -198,14 +198,14 @@ python scripts/despawn_agent.py --agent-id <uuid>
 Sequence:
 
 1. Send stop command to agent
-2. Wait 5 seconds for graceful shutdown
-3. Check if process exited
-4. If still running -> SIGTERM
-5. Wait 2 seconds
-6. If still running -> SIGKILL (if --force)
-7. Update messageboard status
-8. Remove from registry
-9. Optionally remove messageboard file
+1. Wait 5 seconds for graceful shutdown
+1. Check if process exited
+1. If still running -> SIGTERM
+1. Wait 2 seconds
+1. If still running -> SIGKILL (if --force)
+1. Update messageboard status
+1. Remove from registry
+1. Optionally remove messageboard file
 
 ### Force Despawn (Agent Unresponsive)
 
@@ -216,9 +216,9 @@ python scripts/despawn_agent.py --agent-id <uuid> --force
 Sequence:
 
 1. Immediate SIGKILL
-2. Update messageboard status
-3. Remove from registry
-4. Remove messageboard file
+1. Update messageboard status
+1. Remove from registry
+1. Remove messageboard file
 
 ### Bulk Despawn
 

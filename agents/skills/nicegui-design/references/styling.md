@@ -13,7 +13,7 @@ Complete reference for styling NiceGUI applications using Tailwind CSS and Quasa
 - [Responsive Design](#responsive-design)
 - [Dark Mode](#dark-mode)
 
----
+______________________________________________________________________
 
 ## Styling Hierarchy
 
@@ -38,7 +38,7 @@ ui.add_css('''
 ''')
 ```
 
----
+______________________________________________________________________
 
 ## Tailwind CSS
 
@@ -46,14 +46,14 @@ NiceGUI includes Tailwind CSS by default. Use `.classes()` to apply Tailwind uti
 
 ### Layout
 
-| Category | Classes | Description |
-| ---------- | --------- | ------------- |
-| **Display** | `flex`, `inline-flex`, `grid`, `block`, `inline`, `hidden` | Display mode |
-| **Flex Direction** | `flex-row`, `flex-col`, `flex-row-reverse`, `flex-col-reverse` | Direction |
-| **Flex Wrap** | `flex-wrap`, `flex-nowrap`, `flex-wrap-reverse` | Wrapping |
-| **Justify** | `justify-start`, `justify-center`, `justify-end`, `justify-between`, `justify-around`, `justify-evenly` | Horizontal alignment |
-| **Align Items** | `items-start`, `items-center`, `items-end`, `items-stretch`, `items-baseline` | Vertical alignment |
-| **Align Content** | `content-start`, `content-center`, `content-end`, `content-between`, `content-around` | Multi-line alignment |
+| Category           | Classes                                                                                                 | Description          |
+| ------------------ | ------------------------------------------------------------------------------------------------------- | -------------------- |
+| **Display**        | `flex`, `inline-flex`, `grid`, `block`, `inline`, `hidden`                                              | Display mode         |
+| **Flex Direction** | `flex-row`, `flex-col`, `flex-row-reverse`, `flex-col-reverse`                                          | Direction            |
+| **Flex Wrap**      | `flex-wrap`, `flex-nowrap`, `flex-wrap-reverse`                                                         | Wrapping             |
+| **Justify**        | `justify-start`, `justify-center`, `justify-end`, `justify-between`, `justify-around`, `justify-evenly` | Horizontal alignment |
+| **Align Items**    | `items-start`, `items-center`, `items-end`, `items-stretch`, `items-baseline`                           | Vertical alignment   |
+| **Align Content**  | `content-start`, `content-center`, `content-end`, `content-between`, `content-around`                   | Multi-line alignment |
 
 ### Spacing
 
@@ -218,7 +218,7 @@ overflow-x-auto, overflow-y-auto
 overflow-x-hidden, overflow-y-hidden
 ```
 
----
+______________________________________________________________________
 
 ## Quasar Props
 
@@ -328,7 +328,7 @@ ui.table().props('hide-bottom')           # Hide bottom area
 ui.table().props('grid')                  # Grid mode (mobile)
 ```
 
----
+______________________________________________________________________
 
 ## Quasar Typography Classes
 
@@ -364,7 +364,7 @@ These are built-in Quasar classes available via `.classes()`:
 .text-weight-bolder
 ```
 
----
+______________________________________________________________________
 
 ## Color System
 
@@ -428,7 +428,7 @@ bg-blue-50, bg-blue-100 ... bg-blue-900
 bg-yellow-50, bg-yellow-100 ... bg-yellow-900
 ```
 
----
+______________________________________________________________________
 
 ## Common Patterns
 
@@ -519,7 +519,7 @@ ui.table(...).props('dense')
 ui.table(...).props('bordered')
 ```
 
----
+______________________________________________________________________
 
 ## Responsive Design
 
@@ -577,7 +577,7 @@ with ui.card().classes('w-full max-w-4xl'): # Desktop
     pass
 ```
 
----
+______________________________________________________________________
 
 ## Dark Mode
 
@@ -635,7 +635,7 @@ def toggle():
     app.storage.user['dark_mode'] = not current
 ```
 
----
+______________________________________________________________________
 
 ## Helper Functions
 
@@ -665,6 +665,6 @@ with styled_card('User Information'):
         primary_button('Save')
 ```
 
----
+______________________________________________________________________
 
 *For element-specific styling, see [elements.md](elements.md)*

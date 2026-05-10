@@ -11,6 +11,7 @@ metadata:
 Use this skill whenever you need to know the user's location (for weather, time, or localized queries) or when a user corrects their current location information.
 
 ## Step 1: Determine the Current Location
+
 Whenever a location is needed (and not explicitly provided), run the `resolve_location.py` script. This script automatically handles the hierarchy of truth: **Manual Override > IP-based Location**.
 
 ```bash
@@ -18,9 +19,11 @@ python scripts/resolve_location.py
 ```
 
 ## Step 2: Handle Location Corrections
+
 If the user says "That's wrong," "I'm not there," or "My location is actually [X]":
+
 1. **Identify the missing info**: Ask for City, State, Country, and Postal Code if not provided.
-2. **Update the Override**: Run the `update_location.py` script.
+1. **Update the Override**: Run the `update_location.py` script.
 
 ```bash
 python scripts/update_location.py --city "Los Angeles" --state "CA" --country "USA" --postal "90210"
@@ -29,21 +32,26 @@ python scripts/update_location.py --city "Los Angeles" --state "CA" --country "U
 ## Available Scripts
 
 ### **`scripts/resolve_location.py`**
+
 - **Description**: Returns the current best guess for the user's location based on manual overrides or IP detection.
 - **Output**: JSON object with city, state, country, and postal code.
 
 ### **`scripts/lookup_ip.py`**
+
 - **Description**: Fetches location information specifically from the user's current IP address.
 
 ### **`scripts/update_location.py`**
+
 - **Description**: Sets a manual override for the user's location.
 - **Usage**: `python scripts/update_location.py --city <city> --state <state> --country <country> --postal <postal>`
 
 ### **`scripts/get_postal_from_address.py`**
+
 - **Description**: Resolves a City/State/Country into a postal code.
 - **Usage**: `python scripts/get_postal_from_address.py --city <city> --state <state> --country <country>`
 
 ### **`scripts/get_info_from_postal.py`**
+
 - **Description**: Geocodes a postal code into latitude, longitude, and country data.
 - **Usage**: `python scripts/get_info_from_postal.py <postal>`
 

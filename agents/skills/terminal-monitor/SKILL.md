@@ -13,6 +13,7 @@ This skill provides capabilities to monitor and read output from terminal proces
 ## When to Use
 
 Use this skill when the user asks for:
+
 - Checking process status ("is the process still running?")
 - Reading terminal output ("show me what the process printed")
 - Monitoring background jobs ("check on the background task")
@@ -26,11 +27,13 @@ Use this skill when the user asks for:
 Read output from a terminal process by process ID.
 
 **Usage:**
+
 ```bash
 python scripts/read_terminal.py <process_id> [--name <name>]
 ```
 
 **Examples:**
+
 ```bash
 # Read output from process with PID 12345
 python scripts/read_terminal.py 12345
@@ -40,6 +43,7 @@ python scripts/read_terminal.py 12345 --name "my-background-job"
 ```
 
 **Output:**
+
 - stdout content from the process
 - stderr content from the process
 - Process status information
@@ -49,17 +53,20 @@ python scripts/read_terminal.py 12345 --name "my-background-job"
 Check if a process is still running.
 
 **Usage:**
+
 ```bash
 python scripts/check_process.py <process_id>
 ```
 
 **Examples:**
+
 ```bash
 # Check if process 12345 is running
 python scripts/check_process.py 12345
 ```
 
 **Output:**
+
 - Process status (running/stopped)
 - Process name (if available)
 - CPU/memory usage (if available)
@@ -69,11 +76,13 @@ python scripts/check_process.py 12345
 List all processes that can be monitored.
 
 **Usage:**
+
 ```bash
 python scripts/list_processes.py [--filter <pattern>]
 ```
 
 **Examples:**
+
 ```bash
 # List all monitorable processes
 python scripts/list_processes.py
@@ -83,6 +92,7 @@ python scripts/list_processes.py --filter "python"
 ```
 
 **Output:**
+
 - List of process IDs
 - Process names
 - Start times
@@ -125,8 +135,8 @@ python scripts/read_terminal.py 12346
 When using the `agent-spawner` skill to spawn background agents, use `terminal-monitor` to check their output:
 
 1. Spawn an agent (via `agent-spawner`)
-2. Get the process ID from the spawn result
-3. Monitor the agent's output:
+1. Get the process ID from the spawn result
+1. Monitor the agent's output:
    ```bash
    python scripts/read_terminal.py <agent_pid>
    ```

@@ -12,7 +12,7 @@ Quick reference for frequently-used NiceGUI patterns and solutions.
 - [Styling Patterns](#styling-patterns)
 - [Error Handling](#error-handling)
 
----
+______________________________________________________________________
 
 ## Form Handling
 
@@ -70,7 +70,7 @@ with ui.card():
     update_fields()  # Initial render
 ```
 
----
+______________________________________________________________________
 
 ## Data Display
 
@@ -132,7 +132,7 @@ search.on_change(update_list)
 update_list()
 ```
 
----
+______________________________________________________________________
 
 ## Navigation
 
@@ -199,7 +199,7 @@ with ui.row().classes('h-screen'):
         # Page content
 ```
 
----
+______________________________________________________________________
 
 ## State Management
 
@@ -256,7 +256,7 @@ item_list()
 ui.button('Add Item', on_click=add_item)
 ```
 
----
+______________________________________________________________________
 
 ## Async Operations
 
@@ -309,7 +309,7 @@ ui.input('Search', on_change=on_search)
 search_result
 ```
 
----
+______________________________________________________________________
 
 ## Styling Patterns
 
@@ -368,7 +368,7 @@ with ui.card().classes('w-64 bg-gradient-to-br from-blue-500 to-purple-600 text-
     ui.label('With gradient background')
 ```
 
----
+______________________________________________________________________
 
 ## Error Handling
 
@@ -428,18 +428,18 @@ async def handle_exception(request, exc):
     return {'message': str(exc)}
 ```
 
----
+______________________________________________________________________
 
 ## Performance Tips
 
 1. **Use `run.cpu_bound()` for heavy computations**
-2. **Use `ui.refreshable` for dynamic content instead of clearing and rebuilding**
-3. **Use `bind_` methods for automatic updates instead of manual refresh**
-4. **Limit `ui.timer()` frequency**
-5. **Use pagination for large tables**
-6. **Lazy load heavy components**
+1. **Use `ui.refreshable` for dynamic content instead of clearing and rebuilding**
+1. **Use `bind_` methods for automatic updates instead of manual refresh**
+1. **Limit `ui.timer()` frequency**
+1. **Use pagination for large tables**
+1. **Lazy load heavy components**
 
----
+______________________________________________________________________
 
 ## Quick Snippets
 
@@ -481,6 +481,6 @@ def download():
 ui.button('Download', on_click=download)
 ```
 
----
+______________________________________________________________________
 
 *For more details, see the main SKILL.md file.*

@@ -99,9 +99,11 @@ python scripts/update_task.py --task <task-id> --status in_progress
 Break large tasks into smaller, actionable subtasks:
 
 **Too large:**
+
 - "Build the entire application"
 
 **Better:**
+
 - "Design database schema"
 - "Implement authentication"
 - "Create user interface"

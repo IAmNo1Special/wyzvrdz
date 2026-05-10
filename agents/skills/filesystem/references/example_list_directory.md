@@ -3,10 +3,12 @@
 **Use Case:** User asks what's in a folder, to list files, or see directory contents.
 
 **User Query:**
+
 > "List all files in the current directory"
 > "What files are in ./documents?"
 
 **Correct Approach:**
+
 ```bash
 python scripts/list_directory.py
 # Or for a specific path:
@@ -14,6 +16,7 @@ python scripts/list_directory.py "./documents"
 ```
 
 **Expected Output:**
+
 ```json
 {
   "success": true,
@@ -28,6 +31,7 @@ python scripts/list_directory.py "./documents"
 ```
 
 **Key Points:**
+
 - Default path is current directory (.) if not specified
 - Shows both files and directories with their types
 - Full paths are included for each item

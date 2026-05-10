@@ -40,7 +40,7 @@ So please pay attention to context cues to understand how to phrase your communi
 
 It's OK to briefly explain terms if you're in doubt, and feel free to clarify terms with a short definition if you're unsure if the user will get it.
 
----
+______________________________________________________________________
 
 ## Creating a skill
 
@@ -49,9 +49,9 @@ It's OK to briefly explain terms if you're in doubt, and feel free to clarify te
 Start by understanding the user's intent. The current conversation might already contain a workflow the user wants to capture (e.g., they say "turn this into a skill"). If so, extract answers from the conversation history first — the tools used, the sequence of steps, corrections the user made, input/output formats observed. The user may need to fill the gaps, and should confirm before proceeding to the next step.
 
 1. What should this skill enable Wyzvrd to do?
-2. When should this skill trigger? (what user phrases/contexts)
-3. What's the expected output format?
-4. Should we set up test cases to verify the skill works? Skills with objectively verifiable outputs (file transforms, data extraction, code generation, fixed workflow steps) benefit from test cases. Skills with subjective outputs (writing style, art) often don't need them. Suggest the appropriate default based on the skill type, but let the user decide.
+1. When should this skill trigger? (what user phrases/contexts)
+1. What's the expected output format?
+1. Should we set up test cases to verify the skill works? Skills with objectively verifiable outputs (file transforms, data extraction, code generation, fixed workflow steps) benefit from test cases. Skills with subjective outputs (writing style, art) often don't need them. Suggest the appropriate default based on the skill type, but let the user decide.
 
 ### Interview and Research
 
@@ -72,7 +72,7 @@ Based on the user interview, fill in these components:
 
 #### Anatomy of a Skill
 
-```
+```text
 skill-name/
 ├── SKILL.md (required)
 │   ├── YAML frontmatter (name, description required)
@@ -86,19 +86,22 @@ skill-name/
 #### Progressive Disclosure
 
 Skills use a three-level loading system:
+
 1. **Metadata** (name + description) - Always in context (~100 words)
-2. **SKILL.md body** - In context whenever skill triggers (<500 lines ideal)
-3. **Bundled resources** - As needed (unlimited, scripts can execute without loading)
+1. **SKILL.md body** - In context whenever skill triggers (\<500 lines ideal)
+1. **Bundled resources** - As needed (unlimited, scripts can execute without loading)
 
 These word counts are approximate and you can feel free to go longer if needed.
 
 **Key patterns:**
+
 - Keep SKILL.md under 500 lines; if you're approaching this limit, add an additional layer of hierarchy along with clear pointers about where the model using the skill should go next to follow up.
 - Reference files clearly from SKILL.md with guidance on when to read them
 - For large reference files (>300 lines), include a table of contents
 
 **Domain organization**: When a skill supports multiple domains/frameworks, organize by variant:
-```
+
+```text
 cloud-deploy/
 ├── SKILL.md (workflow + selection)
 └── references/
@@ -106,6 +109,7 @@ cloud-deploy/
     ├── gcp.md
     ├── azure.md
 ```
+
 Wyzvrd reads only the relevant reference file.
 
 #### Principle of Lack of Surprise
@@ -117,6 +121,7 @@ Skills must not contain malware, exploit code, or any content that could comprom
 Prefer using the imperative form in instructions.
 
 **Defining output formats** - You can do it like this:
+
 ```markdown
 ## Report structure
 ALWAYS use this exact template:
@@ -127,6 +132,7 @@ ALWAYS use this exact template:
 ```
 
 **Examples pattern** - It's useful to include examples. You can format them like this:
+
 ```markdown
 ## Commit message format
 **Example 1:**
@@ -170,7 +176,7 @@ For each test case, spawn two subagents in the same turn — one with the skill,
 
 **With-skill run:**
 
-```
+```text
 Execute this task:
 - Skill path: <path-to-skill>
 - Task: <eval prompt>
@@ -180,6 +186,7 @@ Execute this task:
 ```
 
 **Baseline run** (same prompt, but the baseline depends on context):
+
 - **Creating a new skill**: no skill at all. Same prompt, no skill path, save to `without_skill/outputs/`.
 - **Improving an existing skill**: the old version. Before editing, snapshot the skill (`cp -r <skill-path> <workspace>/skill-snapshot/`), then point the baseline subagent at the snapshot. Save to `old_skill/outputs/`.
 
@@ -204,12 +211,17 @@ Save token and duration data immediately to `timing.json` in the run directory:
 ### Step 4: Grade, aggregate, and launch the viewer
 
 1. **Grade each run** — spawn a grader subagent. Save results to `grading.json`.
-2. **Aggregate into benchmark** — run the aggregation script:
+
+1. **Aggregate into benchmark** — run the aggregation script:
+
    ```bash
    python -m scripts.aggregate_benchmark <workspace>/iteration-N --skill-name <name>
    ```
-3. **Do an analyst pass** — surface patterns from the data.
-4. **Launch the viewer**:
+
+1. **Do an analyst pass** — surface patterns from the data.
+
+1. **Launch the viewer**:
+
    ```bash
    nohup python <skill-creator-path>/eval-viewer/generate_review.py \
      <workspace>/iteration-N \
@@ -218,32 +230,33 @@ Save token and duration data immediately to `timing.json` in the run directory:
      > /dev/null 2>&1 &
    VIEWER_PID=$!
    ```
+
    **Headless environments:** Use `--static <output_path>` to write a standalone HTML file.
 
 ### Step 5: Read the feedback
 
 When the user is done, read `feedback.json`. Focus improvements on complained-about cases. Kill the viewer server when finished.
 
----
+______________________________________________________________________
 
 ## Improving the skill
 
 Iterate based on feedback.
 
 1. **Generalize from the feedback.** Focus on patterns rather than narrow examples.
-2. **Keep the prompt lean.** Remove unproductive instructions.
-3. **Explain the why.** Help the model understand the reasoning behind instructions.
-4. **Look for repeated work.** Bundle repeated logic into scripts in `scripts/`.
+1. **Keep the prompt lean.** Remove unproductive instructions.
+1. **Explain the why.** Help the model understand the reasoning behind instructions.
+1. **Look for repeated work.** Bundle repeated logic into scripts in `scripts/`.
 
 ### The iteration loop
 
 1. Apply improvements to the skill.
-2. Rerun all test cases into a new iteration directory.
-3. Launch the reviewer with `--previous-workspace`.
-4. Wait for user review.
-5. Repeat until satisfied.
+1. Rerun all test cases into a new iteration directory.
+1. Launch the reviewer with `--previous-workspace`.
+1. Wait for user review.
+1. Repeat until satisfied.
 
----
+______________________________________________________________________
 
 ## Description Optimization
 
@@ -260,6 +273,7 @@ Present the eval set using the HTML template from `assets/eval_review.html`. Wri
 ### Step 3: Run the optimization loop
 
 Run in the background:
+
 ```bash
 python -m scripts.run_loop \
   --eval-set <path-to-trigger-eval.json> \
@@ -268,22 +282,24 @@ python -m scripts.run_loop \
   --max-iterations 5 \
   --verbose
 ```
+
 This handles the full optimization loop automatically, selecting the best description based on test scores.
 
 ### Step 4: Apply the result
 
 Update the skill's SKILL.md frontmatter with the `best_description`.
 
----
+______________________________________________________________________
 
 ## Packaging
 
 Package the skill into a `.skill` file:
+
 ```bash
 python -m scripts.package_skill <path/to/skill-folder>
 ```
 
----
+______________________________________________________________________
 
 ## Gotchas
 
@@ -302,9 +318,10 @@ python -m scripts.package_skill <path/to/skill-folder>
 - `agents/analyzer.md` — Analyze results
 - `references/schemas.md` — JSON structures
 
----
+______________________________________________________________________
 
 Remember the core loop:
+
 - Define intent
 - Draft skill
 - Run test prompts

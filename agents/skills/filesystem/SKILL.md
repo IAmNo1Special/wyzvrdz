@@ -13,6 +13,7 @@ This skill provides file operation capabilities. Use it for all file-related req
 ## When to Use
 
 Use this skill when the user asks for:
+
 - Reading files: "read file.txt", "show me the contents of..."
 - Writing files: "write to file.txt", "save this as...", "create a file"
 - Listing directories: "list files in...", "what's in the folder"
@@ -26,11 +27,13 @@ Use this skill when the user asks for:
 Read the contents of a file.
 
 **Usage:**
+
 ```bash
 python scripts/read_file.py <filepath>
 ```
 
 **Examples:**
+
 ```bash
 python scripts/read_file.py "weather.txt"
 python scripts/read_file.py "/path/to/config.json"
@@ -41,11 +44,13 @@ python scripts/read_file.py "/path/to/config.json"
 Write content to a file (creates or overwrites).
 
 **Usage:**
+
 ```bash
 python scripts/write_file.py <filepath> <content>
 ```
 
 **Examples:**
+
 ```bash
 python scripts/write_file.py "output.txt" "Hello World"
 python scripts/write_file.py "data.json" '{"key": "value"}'
@@ -56,11 +61,13 @@ python scripts/write_file.py "data.json" '{"key": "value"}'
 List contents of a directory.
 
 **Usage:**
+
 ```bash
 python scripts/list_directory.py [path]
 ```
 
 **Examples:**
+
 ```bash
 python scripts/list_directory.py
 python scripts/list_directory.py "./documents"
@@ -71,11 +78,13 @@ python scripts/list_directory.py "./documents"
 Check if a file or directory exists.
 
 **Usage:**
+
 ```bash
 python scripts/file_exists.py <filepath>
 ```
 
 **Examples:**
+
 ```bash
 python scripts/file_exists.py "config.txt"
 ```
@@ -85,11 +94,13 @@ python scripts/file_exists.py "config.txt"
 Copy a file from source to destination.
 
 **Usage:**
+
 ```bash
 python scripts/copy_file.py <source> <destination>
 ```
 
 **Examples:**
+
 ```bash
 python scripts/copy_file.py "original.txt" "backup/original.txt"
 python scripts/copy_file.py "config.json" "config.json.bak"
@@ -100,11 +111,13 @@ python scripts/copy_file.py "config.json" "config.json.bak"
 Delete a file or directory.
 
 **Usage:**
+
 ```bash
 python scripts/delete_file.py <filepath> [--recursive]
 ```
 
 **Examples:**
+
 ```bash
 python scripts/delete_file.py "temp.txt"
 python scripts/delete_file.py "old_folder" --recursive
@@ -115,12 +128,14 @@ python scripts/delete_file.py "old_folder" --recursive
 Search for files by name pattern or content.
 
 **Usage:**
+
 ```bash
 python scripts/search_files.py [directory] --pattern "*.py"
 python scripts/search_files.py [directory] --content "search term"
 ```
 
 **Examples:**
+
 ```bash
 python scripts/search_files.py . --pattern "*.json"
 python scripts/search_files.py . --content "TODO" --extensions ".py,.md"
@@ -131,11 +146,13 @@ python scripts/search_files.py . --content "TODO" --extensions ".py,.md"
 Get detailed information about a file or directory (size, type, permissions, timestamps).
 
 **Usage:**
+
 ```bash
 python scripts/file_info.py <filepath>
 ```
 
 **Examples:**
+
 ```bash
 python scripts/file_info.py "document.pdf"
 python scripts/file_info.py "data_folder"
@@ -144,13 +161,13 @@ python scripts/file_info.py "data_folder"
 ## Common Patterns
 
 1. **Reading a specific file**: "Read weather.txt" -> Use `read_file.py`
-2. **Writing output**: "Save this to results.txt" -> Use `write_file.py`
-3. **Listing files**: "What files are in this directory?" -> Use `list_directory.py`
-4. **Checking existence**: "Does config.json exist?" -> Use `file_exists.py`
-5. **Copying files**: "Backup config.json" -> Use `copy_file.py`
-6. **Deleting files**: "Remove temp.txt" -> Use `delete_file.py`
-7. **Searching files**: "Find all Python files" -> Use `search_files.py`
-8. **File metadata**: "How big is data.csv?" -> Use `file_info.py`
+1. **Writing output**: "Save this to results.txt" -> Use `write_file.py`
+1. **Listing files**: "What files are in this directory?" -> Use `list_directory.py`
+1. **Checking existence**: "Does config.json exist?" -> Use `file_exists.py`
+1. **Copying files**: "Backup config.json" -> Use `copy_file.py`
+1. **Deleting files**: "Remove temp.txt" -> Use `delete_file.py`
+1. **Searching files**: "Find all Python files" -> Use `search_files.py`
+1. **File metadata**: "How big is data.csv?" -> Use `file_info.py`
 
 ## Important Notes
 

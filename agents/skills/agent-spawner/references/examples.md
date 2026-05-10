@@ -305,23 +305,27 @@ python scripts/spawn_agent.py \
 ## Best Practices
 
 ### Naming Conventions
+
 - Use lowercase with hyphens: `research-agent-1`
 - Include timestamp for unique names: `worker-$(date +%s)`
 - Keep names under 64 characters
 
 ### Resource Management
+
 - Spawn only what you need
 - Always cleanup with `despawn_agent.py`
 - Monitor with `list_spawned_agents.py`
 - Set timeouts for long-running tasks
 
 ### Error Handling
+
 - Check health before sending critical tasks
 - Handle "zombie" agents (pid not found but registry shows running)
 - Retry failed spawns with exponential backoff
 - Log all spawn/despawn operations
 
 ### Security Considerations
+
 - Spawned agents have same permissions as parent
 - Messageboards are plain JSON files
 - Don't put sensitive data in agent names or tasks

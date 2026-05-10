@@ -94,12 +94,12 @@ When a cron job completes, summarize the execution using this template. Replace 
 
 Include exit status information:
 
-|Exit Code|Status|Description|
-|---------|------|------------|
-|0|Success|Job completed successfully|
-|1|Failed|Validation or execution error|
-|2|Failed|I/O or system error|
-|3|Failed|Session creation failed|
+| Exit Code | Status  | Description                   |
+| --------- | ------- | ----------------------------- |
+| 0         | Success | Job completed successfully    |
+| 1         | Failed  | Validation or execution error |
+| 2         | Failed  | I/O or system error           |
+| 3         | Failed  | Session creation failed       |
 
 ## Tips
 

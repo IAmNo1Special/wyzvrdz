@@ -9,16 +9,19 @@ This document provides reusable validation patterns and error handling strategie
 **Regex:** `^\d{2}:\d{2}$`
 
 **Valid examples:**
+
 - `00:00` (midnight)
 - `09:30` (9:30 AM)
 - `23:59` (11:59 PM)
 
 **Invalid examples:**
+
 - `9:30` (missing leading zero)
 - `25:00` (hour > 23)
 - `12:30 PM` (contains AM/PM)
 
 **Python implementation:**
+
 ```python
 def validate_time(time_str: str) -> bool:
     if not time_str:
@@ -34,15 +37,18 @@ def validate_time(time_str: str) -> bool:
 ### Pattern: ISO 8601 (YYYY-MM-DD)
 
 **Valid examples:**
+
 - `2026-04-19`
 - `2025-12-31`
 
 **Invalid examples:**
+
 - `04-19-2026` (US format)
 - `19/04/2026` (European format)
 - `2026-4-9` (single digits)
 
 **Python implementation:**
+
 ```python
 def validate_date(date_str: str) -> bool:
     if not date_str:
@@ -57,6 +63,7 @@ def validate_date(date_str: str) -> bool:
 ## Job Name Validation
 
 ### Rules
+
 - 1-64 characters
 - Lowercase alphanumeric and hyphens only
 - Must not start or end with hyphen
@@ -64,6 +71,7 @@ def validate_date(date_str: str) -> bool:
 - Must be unique in registry
 
 **Python implementation:**
+
 ```python
 def validate_job_name(name: str, existing_names: list[str]) -> tuple[bool, str]:
     if not name:
@@ -86,6 +94,7 @@ def validate_job_name(name: str, existing_names: list[str]) -> tuple[bool, str]:
 ### Required Fields
 
 Every job must have:
+
 - `name` (string, validated above)
 - `prompt` (string, non-empty)
 - At least one schedule parameter
@@ -93,6 +102,7 @@ Every job must have:
 ### Schedule Parameter Validation
 
 At least one of:
+
 - `fixed_date` (YYYY-MM-DD)
 - `fixed_time` (HH:MM)
 - `interval_minutes` (positive integer)
@@ -105,6 +115,7 @@ At least one of:
 - `is_random_date` (boolean)
 
 **Python implementation:**
+
 ```python
 def has_schedule(job: dict) -> bool:
     schedule_fields = [
@@ -168,12 +179,12 @@ def atomic_write(data: dict, filepath: Path):
 
 Use consistent exit codes:
 
-| Code | Meaning | Usage |
-|------|---------|-------|
-| 0 | Success | Operation completed successfully |
-| 1 | Validation error | Invalid input, missing required fields, duplicates |
-| 2 | File I/O error | Cannot read/write registry, permission denied |
-| 3 | Not found | Job not found, resource missing |
+| Code | Meaning          | Usage                                              |
+| ---- | ---------------- | -------------------------------------------------- |
+| 0    | Success          | Operation completed successfully                   |
+| 1    | Validation error | Invalid input, missing required fields, duplicates |
+| 2    | File I/O error   | Cannot read/write registry, permission denied      |
+| 3    | Not found        | Job not found, resource missing                    |
 
 ## Logging Patterns
 

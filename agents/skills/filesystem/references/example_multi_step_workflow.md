@@ -3,6 +3,7 @@
 **Use Case:** Complex file operations requiring multiple steps.
 
 **User Query:**
+
 > "Check if output.txt exists, and if not, create it with 'Initial content'"
 
 ## Step 1: Check existence
