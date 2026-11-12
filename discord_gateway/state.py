@@ -42,8 +42,14 @@ class BotState:
     session_lock_ttl: float = 3600.0  # 1 hour
     session_lock_max: int = 100
 
-    # Trace data for UI
-    trace_registry: dict[str, TraceData] = field(default_factory=dict)
+    # Trace data for UI: OrderedDict for FIFO eviction, like
+    # processed_messages above. One entry is stored per completed turn
+    # (see cogs/agent.py), and nothing ever deletes entries, so an
+    # unbounded dict grows for the lifetime of the bot process.
+    trace_registry: OrderedDict[str, TraceData] = field(
+        default_factory=OrderedDict
+    )
+    max_traces: int = 200
 
     # Background tasks
     running_tasks: set[asyncio.Task] = field(default_factory=set)
@@ -107,11 +113,18 @@ class BotState:
     def store_trace(self, trace_id: str, data: TraceData) -> None:
         """Store trace data for UI retrieval.
 
+        Oldest traces are evicted once the registry exceeds max_traces,
+        so a long-running bot cannot grow this dict without bound.
+        Buttons on messages whose trace was evicted already degrade to
+        the "expired from memory" reply in cogs/agent.py.
+
         Args:
             trace_id: Unique trace identifier.
             data: The trace data to store.
         """
         self.trace_registry[trace_id] = data
+        while len(self.trace_registry) > self.max_traces:
+            self.trace_registry.popitem(last=False)
 
     def get_trace(self, trace_id: str) -> TraceData | None:
         """Retrieve trace data by ID.
