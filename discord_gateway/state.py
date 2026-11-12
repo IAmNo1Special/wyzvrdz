@@ -69,20 +69,36 @@ class BotState:
         if len(self.processed_messages) > self.max_processed_messages:
             self.processed_messages.popitem(last=False)
 
-    def _evict_stale_locks(self) -> None:
-        """Remove expired session locks."""
+    def _evict_stale_locks(self, keep: str | None = None) -> None:
+        """Remove expired session locks.
+
+        A lock is only evicted when it is not currently held. Evicting
+        a held lock would hand out a second, unrelated lock for the
+        same session, letting two turns run concurrently. A held lock
+        that is past its TTL is left in place and evicted on the next
+        call after its holder releases it.
+        """
         now = time.monotonic()
         expired = [
             sid
-            for sid, (_, created_at) in self.session_locks.items()
-            if now - created_at > self.session_lock_ttl
+            for sid, (lock, last_used) in self.session_locks.items()
+            if sid != keep
+            and not lock.locked()
+            and now - last_used > self.session_lock_ttl
         ]
         for sid in expired:
             del self.session_locks[sid]
 
-        # Evict oldest if over max
+        # Evict oldest unlocked lock if over max. If every lock is
+        # held, keep them all rather than evicting a live turn; the
+        # excess is cleaned up once a lock is released.
         while len(self.session_locks) > self.session_lock_max:
-            self.session_locks.popitem(last=False)
+            for sid, (lock, _) in self.session_locks.items():
+                if sid != keep and not lock.locked():
+                    del self.session_locks[sid]
+                    break
+            else:
+                break
 
     def get_session_lock(self, session_id: str) -> asyncio.Lock:
         """Get or create a session lock.
@@ -97,11 +113,19 @@ class BotState:
         """
         self._evict_stale_locks()
 
+        now = time.monotonic()
         if session_id not in self.session_locks:
-            self.session_locks[session_id] = (asyncio.Lock(), time.monotonic())
+            self.session_locks[session_id] = (asyncio.Lock(), now)
 
         lock, _ = self.session_locks[session_id]
+        # Refresh the timestamp on every use, so the TTL is measured
+        # from last use, not from when the lock was first created.
+        self.session_locks[session_id] = (lock, now)
         self.session_locks.move_to_end(session_id)  # Mark as recently used
+        # Enforce the max again now that this lock is in the dict:
+        # the eviction at the top ran before insertion, so without
+        # this the limit would only bite on the next call.
+        self._evict_stale_locks(keep=session_id)
         return lock
 
     def store_trace(self, trace_id: str, data: TraceData) -> None:
